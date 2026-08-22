@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "essor-revamped",
+	"version": "${version}",
+	"name": "Essor - Revamped",
+	"description": "A revamped version of Essor, a Minecraft mod that enhances your experience by adding a leveling system to your equipment.",
+	"authors": [
+		"Noah Boos (Propzonzon) (Rift)"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "RMML v2.0",
+	"icon": "assets/essor-revamped/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"fr.noahboos.essorrevamped.EssorRevamped"
+		],
+		"client": [
+			"fr.noahboos.essorrevamped.client.EssorRevampedClient"
+		]
+	},
+	"mixins": [
+		"essor-revamped.mixins.json",
+		{
+			"config": "essor-revamped.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
