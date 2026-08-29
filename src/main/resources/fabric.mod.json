@@ -23,7 +23,7 @@
 		]
 	},
 	"mixins": [
-		"essor-revamped.mixins.json",
+      "essor-revamped.mixins.json",
 		{
 			"config": "essor-revamped.client.mixins.json",
 			"environment": "client"
