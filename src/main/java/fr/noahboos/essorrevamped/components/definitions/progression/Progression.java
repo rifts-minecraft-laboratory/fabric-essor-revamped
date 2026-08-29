@@ -1,14 +1,21 @@
-package fr.noahboos.essorrevamped.components.definitions;
+package fr.noahboos.essorrevamped.components.definitions.progression;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
+
+import java.util.function.Consumer;
 
 public record Progression(
     int experienceLevel,
     int experiencePoints,
     int masteryLevel,
     float experienceMultiplier
-) {
+) implements TooltipProvider {
     public Progression {
         if (experienceLevel < 0) throw new IllegalArgumentException("experienceLevel must be equal to or greater than 0.");
         if (experiencePoints < 0) throw new IllegalArgumentException("experiencePoints must be equal to or greater than 0.");
@@ -24,6 +31,10 @@ public record Progression(
         return 100 * this.experienceLevel() + 100;
     }
 
+    public int maximumMasteryLevel() {
+        return 10;
+    }
+
     public static final Codec<Progression> CODEC = RecordCodecBuilder.create(builder -> {
        return builder.group(
            Codec.INT.fieldOf("experienceLevel").forGetter(Progression::experienceLevel),
@@ -32,4 +43,9 @@ public record Progression(
            Codec.FLOAT.fieldOf("experienceMultiplier").forGetter(Progression::experienceMultiplier)
        ).apply(builder, Progression::new);
     });
+
+    @Override
+    public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag, DataComponentGetter components) {
+        ProgressionTooltip.tooltip(this, context, tooltip, flag, components);
+    }
 }
