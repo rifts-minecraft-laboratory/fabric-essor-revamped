@@ -1,5 +1,5 @@
 {
   "essor-revamped.components.progression.tooltip.experienceLevel": "Level %1$s : %2$s / %3$s",
-  "essor-revamped.components.progression.tooltip.masteryLevel": "Level %1$s : %2$s",
+  "essor-revamped.components.progression.tooltip.masteryLevel": "Mastery %1$s : %2$s",
   "essor-revamped.components.progression.tooltip.experienceMultiplier": "Experience multiplier : %1$s"
 }
