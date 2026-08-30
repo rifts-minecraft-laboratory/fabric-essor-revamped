@@ -40,6 +40,12 @@ processResources {
 	}
 }
 
+fabricApi {
+	configureDataGeneration() {
+		client = true
+	}
+}
+
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 25
 }

@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"fr.noahboos.essorrevamped.client.EssorRevampedClient"
+		],
+		"fabric-datagen": [
+			"fr.noahboos.essorrevamped.client.datagen.EssorRevampedDataGenerator"
 		]
 	},
 	"mixins": [
