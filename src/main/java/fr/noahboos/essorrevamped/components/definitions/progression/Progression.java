@@ -2,10 +2,10 @@ package fr.noahboos.essorrevamped.components.definitions.progression;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipProvider;
 
 import java.util.function.Consumer;
@@ -47,5 +47,17 @@ public record Progression(
     @Override
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag, DataComponentGetter components) {
         ProgressionTooltip.tooltip(this, context, tooltip, flag, components);
+    }
+
+    public static boolean isApplicableTo(Item item) {
+        ItemStack itemStack = item.getDefaultInstance();
+
+        if (
+            itemStack.is(ConventionalItemTags.HUMANOID_ARMORS)
+            || (itemStack.is(ConventionalItemTags.TOOLS) && !itemStack.is(Items.FLINT_AND_STEEL))
+            || itemStack.is(Items.ELYTRA)
+        ) return true;
+
+        return false;
     }
 }

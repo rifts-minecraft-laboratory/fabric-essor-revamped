@@ -1,6 +1,7 @@
 package fr.noahboos.essorrevamped;
 
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
+import fr.noahboos.essorrevamped.events.EssorRevampedEvents;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.resources.Identifier;
@@ -19,6 +20,7 @@ public class EssorRevamped implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 		EssorRevampedComponents.initialize();
+		EssorRevampedEvents.initialize();
 
 		LOGGER.info("Hello Fabric world! Essor - Revamped is up. :D");
 	}
