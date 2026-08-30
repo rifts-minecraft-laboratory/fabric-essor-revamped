@@ -1,0 +1,18 @@
+{
+  "fabric:remove": [
+    "minecraft:brush",
+    "minecraft:fishing_rod",
+    "minecraft:flint_and_steel"
+  ],
+  "replace": true,
+  "values": [
+    {
+      "id": "#c:armors/humanoid",
+      "required": false
+    },
+    {
+      "id": "#c:tools",
+      "required": false
+    }
+  ]
+}

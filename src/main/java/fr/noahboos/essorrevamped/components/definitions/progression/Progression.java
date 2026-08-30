@@ -2,7 +2,7 @@ package fr.noahboos.essorrevamped.components.definitions.progression;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import fr.noahboos.essorrevamped.tags.EssorRevampedItemTagProvider;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -52,12 +52,6 @@ public record Progression(
     public static boolean isApplicableTo(Item item) {
         ItemStack itemStack = item.getDefaultInstance();
 
-        if (
-            itemStack.is(ConventionalItemTags.HUMANOID_ARMORS)
-            || (itemStack.is(ConventionalItemTags.TOOLS) && !itemStack.is(Items.FLINT_AND_STEEL))
-            || itemStack.is(Items.ELYTRA)
-        ) return true;
-
-        return false;
+        return itemStack.is(EssorRevampedItemTagProvider.HAS_PROGRESSION);
     }
 }
