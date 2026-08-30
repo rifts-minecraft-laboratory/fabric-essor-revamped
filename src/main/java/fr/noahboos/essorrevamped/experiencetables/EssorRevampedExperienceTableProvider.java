@@ -1,10 +1,15 @@
 package fr.noahboos.essorrevamped.experiencetables;
 
+import fr.noahboos.essorrevamped.EssorRevamped;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Blocks;
+
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
@@ -15,7 +20,10 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
 
     @Override
     protected void configure(BiConsumer<Identifier, ExperienceTable> provider, HolderLookup.Provider registryLookup) {
-        // Experience tables are defined here.
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "mining"), new ExperienceTable(Map.of(
+            BuiltInRegistries.BLOCK.getKey(Blocks.STONE), 1f,
+            BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE), 2f
+        )));
     }
 
     @Override
