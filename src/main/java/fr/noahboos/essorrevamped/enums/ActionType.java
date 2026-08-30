@@ -1,8 +1,7 @@
 package fr.noahboos.essorrevamped.enums;
 
 public enum ActionType {
-    // Enumerator values here.
-    ;
+    MINING;
 
     public boolean is(ActionType other) {
         return this == other;
