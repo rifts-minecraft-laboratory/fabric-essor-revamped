@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 public record Progression(
     int experienceLevel,
-    int experiencePoints,
+    float experiencePoints,
     int masteryLevel,
     float experienceMultiplier
 ) implements TooltipProvider {
@@ -38,7 +38,7 @@ public record Progression(
     public static final Codec<Progression> CODEC = RecordCodecBuilder.create(builder -> {
        return builder.group(
            Codec.INT.fieldOf("experienceLevel").forGetter(Progression::experienceLevel),
-           Codec.INT.fieldOf("experiencePoints").forGetter(Progression::experiencePoints),
+           Codec.FLOAT.fieldOf("experiencePoints").forGetter(Progression::experiencePoints),
            Codec.INT.fieldOf("masteryLevel").forGetter(Progression::masteryLevel),
            Codec.FLOAT.fieldOf("experienceMultiplier").forGetter(Progression::experienceMultiplier)
        ).apply(builder, Progression::new);
