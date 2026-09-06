@@ -11,8 +11,8 @@ import net.minecraft.world.item.component.TooltipProvider;
 import java.util.function.Consumer;
 
 public record Progression(
-    int experienceLevel,
     float experiencePoints,
+    int experienceLevel,
     int masteryLevel,
     float experienceMultiplier
 ) implements TooltipProvider {
@@ -37,8 +37,8 @@ public record Progression(
 
     public static final Codec<Progression> CODEC = RecordCodecBuilder.create(builder -> {
        return builder.group(
-           Codec.INT.fieldOf("experienceLevel").forGetter(Progression::experienceLevel),
            Codec.FLOAT.fieldOf("experiencePoints").forGetter(Progression::experiencePoints),
+           Codec.INT.fieldOf("experienceLevel").forGetter(Progression::experienceLevel),
            Codec.INT.fieldOf("masteryLevel").forGetter(Progression::masteryLevel),
            Codec.FLOAT.fieldOf("experienceMultiplier").forGetter(Progression::experienceMultiplier)
        ).apply(builder, Progression::new);
