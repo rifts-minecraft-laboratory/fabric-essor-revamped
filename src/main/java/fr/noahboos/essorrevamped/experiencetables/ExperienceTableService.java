@@ -20,7 +20,7 @@ public class ExperienceTableService {
         Resource resource = null;
         try {
             if (itemStack.is(ItemTags.PICKAXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
-                resource = resourceManager.getResourceOrThrow(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "experience_tables/mining.json"));
+                resource = resourceManager.getResourceOrThrow(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "experience_tables/block-breaking-pickaxe.json"));
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

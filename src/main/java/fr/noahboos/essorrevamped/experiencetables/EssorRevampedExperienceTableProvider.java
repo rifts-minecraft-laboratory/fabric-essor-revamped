@@ -20,9 +20,9 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
 
     @Override
     protected void configure(BiConsumer<Identifier, ExperienceTable> provider, HolderLookup.Provider registryLookup) {
-        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "mining"), new ExperienceTable(Map.of(
-            BuiltInRegistries.BLOCK.getKey(Blocks.STONE), 1f,
-            BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE), 2f
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-pickaxe"), new ExperienceTable(Map.of(
+            BuiltInRegistries.BLOCK.getKey(Blocks.STONE), 10f,
+            BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE), 20f
         )));
     }
 
