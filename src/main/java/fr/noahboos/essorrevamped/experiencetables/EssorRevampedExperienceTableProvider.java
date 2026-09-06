@@ -20,9 +20,21 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
 
     @Override
     protected void configure(BiConsumer<Identifier, ExperienceTable> provider, HolderLookup.Provider registryLookup) {
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-axe"), new ExperienceTable(Map.of(
+            BuiltInRegistries.BLOCK.getKey(Blocks.OAK_LOG), 7.5f
+        )));
+
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-hoe"), new ExperienceTable(Map.of(
+            BuiltInRegistries.BLOCK.getKey(Blocks.NETHER_WART_BLOCK), 12.5f
+        )));
+
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-pickaxe"), new ExperienceTable(Map.of(
             BuiltInRegistries.BLOCK.getKey(Blocks.STONE), 10f,
             BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE), 20f
+        )));
+
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-shovel"), new ExperienceTable(Map.of(
+            BuiltInRegistries.BLOCK.getKey(Blocks.GRASS_BLOCK), 25f
         )));
     }
 
