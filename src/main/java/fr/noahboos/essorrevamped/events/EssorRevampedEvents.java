@@ -21,7 +21,7 @@ public class EssorRevampedEvents {
             });
         });
         PlayerBlockBreakEvents.AFTER.register((world, player, blockPos, blockState, blockEntity) -> {
-            ExperienceTable experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getActiveItem(), ActionType.MINING);
+            ExperienceTable experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getActiveItem(), ActionType.BLOCK_BREAKING);
             if (experienceTable == null) return;
             float experienceToGain = experienceTable.values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
 

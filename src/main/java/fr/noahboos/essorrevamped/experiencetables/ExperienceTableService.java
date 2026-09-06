@@ -19,7 +19,7 @@ public class ExperienceTableService {
     public static ExperienceTable findExperienceTable(ResourceManager resourceManager, ItemStack itemStack, ActionType actionType) {
         Resource resource = null;
         try {
-            if (itemStack.is(ItemTags.PICKAXES) && actionType.is(ActionType.MINING)) {
+            if (itemStack.is(ItemTags.PICKAXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
                 resource = resourceManager.getResourceOrThrow(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "experience_tables/mining.json"));
             }
         } catch (FileNotFoundException e) {
