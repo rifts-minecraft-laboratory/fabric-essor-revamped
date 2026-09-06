@@ -35,6 +35,42 @@ public record Progression(
         return 10;
     }
 
+    public Progression withExperiencePoints(float experiencePoints) {
+        return new Progression(
+            experiencePoints,
+            this.experienceLevel,
+            this.masteryLevel,
+            this.experienceMultiplier
+        );
+    }
+
+    public Progression withExperienceLevel(int experienceLevel) {
+        return new Progression(
+            this.experiencePoints,
+            experienceLevel,
+            this.masteryLevel,
+            this.experienceMultiplier
+        );
+    }
+
+    public Progression withMasteryLevel(int masteryLevel) {
+        return new Progression(
+            this.experiencePoints,
+            this.experienceLevel,
+            masteryLevel,
+            this.experienceMultiplier
+        );
+    }
+
+    public Progression withExperienceMultiplier(float experienceMultiplier) {
+        return new Progression(
+            this.experiencePoints,
+            this.experienceLevel,
+            this.masteryLevel,
+            experienceMultiplier
+        );
+    }
+
     public static final Codec<Progression> CODEC = RecordCodecBuilder.create(builder -> {
        return builder.group(
            Codec.FLOAT.fieldOf("experiencePoints").forGetter(Progression::experiencePoints),
