@@ -1,8 +1,12 @@
 package fr.noahboos.essorrevamped.components.definitions.progression;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class ProgressionService {
     public static Progression gainExperiencePoints(Progression progression, float experiencePoints) {
-        Progression _progression = progression.withExperiencePoints(progression.experiencePoints() + experiencePoints);
+        float _experiencePoints = BigDecimal.valueOf(progression.experiencePoints() + experiencePoints).setScale(3, RoundingMode.HALF_UP).floatValue();
+        Progression _progression = progression.withExperiencePoints(_experiencePoints);
 
         _progression = ProgressionService.levelUp(_progression);
 
