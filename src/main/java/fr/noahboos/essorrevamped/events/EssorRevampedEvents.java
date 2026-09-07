@@ -19,6 +19,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class EssorRevampedEvents {
     public static void initialize() {
         EssorRevamped.LOGGER.info("Registering {}'s events.", EssorRevamped.MOD_ID);
@@ -41,19 +44,18 @@ public class EssorRevampedEvents {
             itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
         });
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
-            ItemStack[] armorPieces = {
-                entity.getItemBySlot(EquipmentSlot.HEAD),
-                entity.getItemBySlot(EquipmentSlot.CHEST),
-                entity.getItemBySlot(EquipmentSlot.LEGS),
-                entity.getItemBySlot(EquipmentSlot.FEET)
-            };
+            Map<EquipmentSlot, ItemStack> armorPieces = new HashMap<>();
+            armorPieces.put(EquipmentSlot.HEAD, entity.getItemBySlot(EquipmentSlot.HEAD));
+            armorPieces.put(EquipmentSlot.CHEST, entity.getItemBySlot(EquipmentSlot.CHEST));
+            armorPieces.put(EquipmentSlot.LEGS, entity.getItemBySlot(EquipmentSlot.LEGS));
+            armorPieces.put(EquipmentSlot.FEET, entity.getItemBySlot(EquipmentSlot.FEET));
 
-            for (ItemStack itemStack : armorPieces) {
+            armorPieces.forEach((equipmentSlot, itemStack) -> {
                 Progression progression = itemStack.get(EssorRevampedComponents.PROGRESSION);
-                if (progression == null) continue;
+                if (progression == null) return;
 
                 ItemAttributeModifiers itemAttributeModifiers = itemStack.get(DataComponents.ATTRIBUTE_MODIFIERS);
-                if (itemAttributeModifiers == null) continue;
+                if (itemAttributeModifiers == null) return;
 
                 double armor = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR);
                 double armorToughness = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS);
@@ -61,7 +63,10 @@ public class EssorRevampedEvents {
                 float damageReductionPercentage = 0f;
                 float damageMitigated = 0f;
 
-                if (source.is(DamageTypes.PLAYER_ATTACK) || source.is(DamageTypes.MOB_ATTACK)){
+                if (source.is(DamageTypes.FALL)) {
+
+                }
+                if (source.is(DamageTypes.PLAYER_ATTACK) || source.is(DamageTypes.MOB_ATTACK)) {
                     // Minecraft's formula used to compute the damage reduction as a percentage.
                     damageReductionPercentage = (float) Math.min(80, Math.max((4 / 5) * armor, 4 * armor - ((16 * baseDamageTaken) / (armorToughness + 8))));
                     damageMitigated = baseDamageTaken * damageReductionPercentage / 100;
@@ -72,7 +77,7 @@ public class EssorRevampedEvents {
                 progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
                 EssorRevamped.LOGGER.info(progression.toString()); // Log à effacer pour la mise en prod'.
                 itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
-            }
+            });
         });
         EssorRevamped.LOGGER.info("Registered {}'s events.", EssorRevamped.MOD_ID);
     }
