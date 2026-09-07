@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
@@ -57,13 +58,19 @@ public class EssorRevampedEvents {
                 double armor = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR);
                 double armorToughness = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS);
 
-                // Minecraft's formula used to compute the damage reduction as a percentage.
-                float damageReductionPercentage = (float) Math.min(80, Math.max((4 / 5) * armor, 4 * armor - ((16 * baseDamageTaken) / (armorToughness + 8))));
-                float damageMitigated = baseDamageTaken * damageReductionPercentage / 100;
+                float damageReductionPercentage = 0f;
+                float damageMitigated = 0f;
+
+                if (source.is(DamageTypes.PLAYER_ATTACK) || source.is(DamageTypes.MOB_ATTACK)){
+                    // Minecraft's formula used to compute the damage reduction as a percentage.
+                    damageReductionPercentage = (float) Math.min(80, Math.max((4 / 5) * armor, 4 * armor - ((16 * baseDamageTaken) / (armorToughness + 8))));
+                    damageMitigated = baseDamageTaken * damageReductionPercentage / 100;
+                }
+
                 float experienceToGain = damageMitigated * 7.5f;
 
                 progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
-                EssorRevamped.LOGGER.info(progression.toString());
+                EssorRevamped.LOGGER.info(progression.toString()); // Log à effacer pour la mise en prod'.
                 itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
             }
         });
