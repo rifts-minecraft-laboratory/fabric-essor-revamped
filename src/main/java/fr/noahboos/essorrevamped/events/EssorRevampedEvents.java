@@ -8,6 +8,7 @@ import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionS
 import fr.noahboos.essorrevamped.enums.ActionType;
 import fr.noahboos.essorrevamped.experiencetables.ExperienceTable;
 import fr.noahboos.essorrevamped.experiencetables.ExperienceTableService;
+import fr.noahboos.essorrevamped.records.ArmorData;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
@@ -19,8 +20,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EssorRevampedEvents {
     public static void initialize() {
@@ -44,17 +45,17 @@ public class EssorRevampedEvents {
             itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
         });
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
-            Map<EquipmentSlot, ItemStack> armorPieces = new HashMap<>();
-            armorPieces.put(EquipmentSlot.HEAD, entity.getItemBySlot(EquipmentSlot.HEAD));
-            armorPieces.put(EquipmentSlot.CHEST, entity.getItemBySlot(EquipmentSlot.CHEST));
-            armorPieces.put(EquipmentSlot.LEGS, entity.getItemBySlot(EquipmentSlot.LEGS));
-            armorPieces.put(EquipmentSlot.FEET, entity.getItemBySlot(EquipmentSlot.FEET));
+            List<ArmorData> armorPieces = new ArrayList<>();
+            armorPieces.add(new ArmorData(EquipmentSlot.HEAD, entity.getItemBySlot(EquipmentSlot.HEAD)));
+            armorPieces.add(new ArmorData(EquipmentSlot.CHEST, entity.getItemBySlot(EquipmentSlot.CHEST)));
+            armorPieces.add(new ArmorData(EquipmentSlot.LEGS, entity.getItemBySlot(EquipmentSlot.LEGS)));
+            armorPieces.add(new ArmorData(EquipmentSlot.FEET, entity.getItemBySlot(EquipmentSlot.FEET)));
 
-            armorPieces.forEach((equipmentSlot, itemStack) -> {
-                Progression progression = itemStack.get(EssorRevampedComponents.PROGRESSION);
+            armorPieces.forEach(( armorData) -> {
+                Progression progression = armorData.itemStack().get(EssorRevampedComponents.PROGRESSION);
                 if (progression == null) return;
 
-                ItemAttributeModifiers itemAttributeModifiers = itemStack.get(DataComponents.ATTRIBUTE_MODIFIERS);
+                ItemAttributeModifiers itemAttributeModifiers = armorData.itemStack().get(DataComponents.ATTRIBUTE_MODIFIERS);
                 if (itemAttributeModifiers == null) return;
 
                 double armor = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR);
@@ -76,7 +77,7 @@ public class EssorRevampedEvents {
 
                 progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
                 EssorRevamped.LOGGER.info(progression.toString()); // Log à effacer pour la mise en prod'.
-                itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
+                armorData.itemStack().set(EssorRevampedComponents.PROGRESSION, progression);
             });
         });
         EssorRevamped.LOGGER.info("Registered {}'s events.", EssorRevamped.MOD_ID);
