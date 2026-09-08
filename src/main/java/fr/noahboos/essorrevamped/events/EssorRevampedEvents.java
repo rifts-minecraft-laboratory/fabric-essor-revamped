@@ -15,6 +15,7 @@ import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
@@ -51,33 +52,42 @@ public class EssorRevampedEvents {
             armorPieces.add(new ArmorData(EquipmentSlot.LEGS, entity.getItemBySlot(EquipmentSlot.LEGS)));
             armorPieces.add(new ArmorData(EquipmentSlot.FEET, entity.getItemBySlot(EquipmentSlot.FEET)));
 
-            armorPieces.forEach(( armorData) -> {
-                Progression progression = armorData.itemStack().get(EssorRevampedComponents.PROGRESSION);
-                if (progression == null) return;
-
+            armorPieces.forEach(armorData -> {
+                EssorRevamped.LOGGER.warn("Gathering data from " + armorData.itemStack().getItemName().getString() + ".");
                 ItemAttributeModifiers itemAttributeModifiers = armorData.itemStack().get(DataComponents.ATTRIBUTE_MODIFIERS);
-                if (itemAttributeModifiers == null) return;
+                if (itemAttributeModifiers == null) {
+                    EssorRevamped.LOGGER.warn("Can't gather data from " + armorData.itemStack().getItemName().getString() + ".");
+                    return;
+                }
 
-                double armor = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR);
-                double armorToughness = AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS);
+                ArmorData _armorData = armorData
+                    .withArmor(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR))
+                    .withArmorToughness(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS));
+
+                armorPieces.set(armorPieces.indexOf(armorData), _armorData);
+                EssorRevamped.LOGGER.warn("Gathered data from " + armorData.itemStack().getItemName().getString() + ".");
+            });
+
+            armorPieces.forEach(armorData -> {
+                EssorRevamped.LOGGER.warn("Rewarding " + armorData.itemStack().getItemName().getString() + " with experience.");
+                Progression progression = armorData.itemStack().get(EssorRevampedComponents.PROGRESSION);
+                if (progression == null) {
+                    EssorRevamped.LOGGER.warn("Can't reward " + armorData.itemStack().getItemName().getString() + " as it has no progression data component.");
+                    return;
+                }
 
                 float damageReductionPercentage = 0f;
                 float damageMitigated = 0f;
 
-                if (source.is(DamageTypes.FALL)) {
-
-                }
-                if (source.is(DamageTypes.PLAYER_ATTACK) || source.is(DamageTypes.MOB_ATTACK)) {
-                    // Minecraft's formula used to compute the damage reduction as a percentage.
-                    damageReductionPercentage = (float) Math.min(80, Math.max((4 / 5) * armor, 4 * armor - ((16 * baseDamageTaken) / (armorToughness + 8))));
-                    damageMitigated = baseDamageTaken * damageReductionPercentage / 100;
-                }
+                damageReductionPercentage = (float) Math.min(80, Math.max((4 / 5) * armorData.armor(), 4 * armorData.armor() - ((16 * baseDamageTaken) / (armorData.armorToughness() + 8))));
+                damageMitigated = baseDamageTaken * damageReductionPercentage / 100;
 
                 float experienceToGain = damageMitigated * 7.5f;
 
                 progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
                 EssorRevamped.LOGGER.info(progression.toString()); // Log à effacer pour la mise en prod'.
                 armorData.itemStack().set(EssorRevampedComponents.PROGRESSION, progression);
+                EssorRevamped.LOGGER.warn("Rewarded " + armorData.itemStack().getItemName().getString() + " with experience.");
             });
         });
         EssorRevamped.LOGGER.info("Registered {}'s events.", EssorRevamped.MOD_ID);
