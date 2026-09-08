@@ -3,19 +3,19 @@ package fr.noahboos.essorrevamped.records;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
-public record ArmorData(
+public record ArmorPieceData(
     EquipmentSlot equipmentSlot,
     ItemStack itemStack,
     double armor,
     double armorToughness,
     int enchantmentProtectionFactor
 ) {
-    public ArmorData(EquipmentSlot equipmentSlot, ItemStack itemStack) {
+    public ArmorPieceData(EquipmentSlot equipmentSlot, ItemStack itemStack) {
         this(equipmentSlot, itemStack, 0, 0, 0);
     }
 
-    public ArmorData withArmor(double armor) {
-        return new ArmorData(
+    public ArmorPieceData withArmor(double armor) {
+        return new ArmorPieceData(
             this.equipmentSlot(),
             this.itemStack(),
             armor,
@@ -24,8 +24,8 @@ public record ArmorData(
         );
     }
 
-    public ArmorData withArmorToughness(double armorToughness) {
-        return new ArmorData(
+    public ArmorPieceData withArmorToughness(double armorToughness) {
+        return new ArmorPieceData(
             this.equipmentSlot(),
             this.itemStack(),
             this.armor(),
@@ -34,8 +34,8 @@ public record ArmorData(
         );
     }
 
-    public ArmorData withEnchantmentProtectionFactor(int enchantmentProtectionFactor) {
-        return new ArmorData(
+    public ArmorPieceData withEnchantmentProtectionFactor(int enchantmentProtectionFactor) {
+        return new ArmorPieceData(
             this.equipmentSlot(),
             this.itemStack(),
             this.armor(),
