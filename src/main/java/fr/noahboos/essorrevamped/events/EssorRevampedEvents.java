@@ -57,6 +57,8 @@ public class EssorRevampedEvents {
             armorPieces.add(new ArmorPieceData(EquipmentSlot.FEET, entity.getItemBySlot(EquipmentSlot.FEET)));
 
             armorPieces.forEach(armorPieceData -> {
+                if (source.is(DamageTypes.DROWN)) return;
+
                 EssorRevamped.LOGGER.info("Gathering data from {}.", armorPieceData.itemStack().getItemName().getString());
 
                 ItemAttributeModifiers itemAttributeModifiers = armorPieceData.itemStack().get(DataComponents.ATTRIBUTE_MODIFIERS);
