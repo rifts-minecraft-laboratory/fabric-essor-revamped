@@ -103,6 +103,10 @@ public class EssorRevampedEvents {
                     return;
                 }
 
+                if (source.is(DamageTypes.FALL)) {
+                    if (_armorPieceData.equipmentSlot() != EquipmentSlot.FEET) return;
+                }
+
                 float experienceToGain = (float) (damageTaken * (1f + (_armorPieceData.armor() * 0.05f) + (_armorPieceData.armorToughness() * 0.10f) + (_armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
 
                 progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
