@@ -10,6 +10,7 @@ import fr.noahboos.essorrevamped.enums.ActionType;
 import fr.noahboos.essorrevamped.experiencetables.ExperienceTable;
 import fr.noahboos.essorrevamped.experiencetables.ExperienceTableService;
 import fr.noahboos.essorrevamped.records.ArmorPieceData;
+import fr.noahboos.essorrevamped.records.EnchantmentProtectionRule;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
@@ -21,7 +22,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,30 +64,15 @@ public class EssorRevampedEvents {
                     .withArmor(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR))
                     .withArmorToughness(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS));
 
-                if (!source.is(DamageTypes.SONIC_BOOM) && !source.is(DamageTypes.STARVE) && !source.is(DamageTypes.FELL_OUT_OF_WORLD) && !source.is(DamageTypes.GENERIC_KILL)) {
-                    Map.Entry<Holder<Enchantment>, Integer> protection = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), Enchantments.PROTECTION);
-                    if (protection != null) _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + protection.getValue());
-                }
+                for (EnchantmentProtectionRule enchantmentProtectionRule : EnchantmentHelper.enchantmentProtectionRules) {
+                    if (!enchantmentProtectionRule.appliesTo().test(source)) continue;
 
-                if (source.is(DamageTypes.FIREBALL) || source.is(DamageTypes.FIREWORKS) || source.is(DamageTypes.IN_FIRE) || source.is(DamageTypes.ON_FIRE) || source.is(DamageTypes.UNATTRIBUTED_FIREBALL) || source.is(DamageTypes.CAMPFIRE)) {
-                    Map.Entry<Holder<Enchantment>, Integer> fireProtection = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), Enchantments.FIRE_PROTECTION);
-                    if (fireProtection != null) _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (fireProtection.getValue() * 2));
-                }
+                    Map.Entry<Holder<Enchantment>, Integer> enchantment = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), enchantmentProtectionRule.enchantment());
 
-                if (source.is(DamageTypes.EXPLOSION) || source.is(DamageTypes.PLAYER_EXPLOSION)) {
-                    Map.Entry<Holder<Enchantment>, Integer> blastProtection = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), Enchantments.BLAST_PROTECTION);
-                    if (blastProtection != null) _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (blastProtection.getValue() * 2));
-                }
+                    if (enchantment == null) continue;
 
-                if (source.is(DamageTypes.ARROW) || source.is(DamageTypes.TRIDENT) || source.is(DamageTypes.FIREBALL) || source.is(DamageTypes.UNATTRIBUTED_FIREBALL)) {
-                    Map.Entry<Holder<Enchantment>, Integer> projectileProtection = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), Enchantments.PROJECTILE_PROTECTION);
-                    if (projectileProtection != null) _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (projectileProtection.getValue() * 2));
-                }
-
-                if (source.is(DamageTypes.FALL)) {
-                    Map.Entry<Holder<Enchantment>, Integer> featherFalling = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), Enchantments.FEATHER_FALLING);
-                    if (featherFalling != null) _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (featherFalling.getValue() * 3));
-                }
+                    _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (enchantmentProtectionRule.baseEnchantmentProtectionFactor() * enchantment.getValue()));
+                };
 
                 EssorRevamped.LOGGER.info("Gathered data from {}.", _armorPieceData.itemStack().getItemName().getString());
                 EssorRevamped.LOGGER.info("Rewarding {} with experience.", _armorPieceData.itemStack().getItemName().getString());
