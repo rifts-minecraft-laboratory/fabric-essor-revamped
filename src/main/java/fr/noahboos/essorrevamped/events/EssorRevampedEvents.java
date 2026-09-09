@@ -19,7 +19,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -41,13 +40,7 @@ public class EssorRevampedEvents {
             if (experienceTable == null) return;
             float experienceToGain = experienceTable.values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
 
-            ItemStack itemStack = player.getActiveItem();
-            Progression progression = itemStack.get(EssorRevampedComponents.PROGRESSION);
-
-            if (progression == null) return;
-
-            progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
-            itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
+            ProgressionService.progressItem(player.getActiveItem(), experienceToGain);
         });
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, source, baseDamageTaken, damageTaken, blocked) -> {
             List<ArmorPieceData> armorPieces = new ArrayList<>();
@@ -99,20 +92,13 @@ public class EssorRevampedEvents {
                 EssorRevamped.LOGGER.info("Gathered data from {}.", _armorPieceData.itemStack().getItemName().getString());
                 EssorRevamped.LOGGER.info("Rewarding {} with experience.", _armorPieceData.itemStack().getItemName().getString());
 
-                Progression progression = _armorPieceData.itemStack().get(EssorRevampedComponents.PROGRESSION);
-                if (progression == null) {
-                    EssorRevamped.LOGGER.warn("Can't reward {} as it has no progression data component.", _armorPieceData.itemStack().getItemName().getString());
-                    return;
-                }
-
                 if (source.is(DamageTypes.FALL)) {
                     if (_armorPieceData.equipmentSlot() != EquipmentSlot.FEET) return;
                 }
 
                 float experienceToGain = (float) (damageTaken * (1f + (_armorPieceData.armor() * 0.05f) + (_armorPieceData.armorToughness() * 0.10f) + (_armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
 
-                progression = ProgressionService.gainExperiencePoints(progression, experienceToGain);
-                _armorPieceData.itemStack().set(EssorRevampedComponents.PROGRESSION, progression);
+                ProgressionService.progressItem(_armorPieceData.itemStack(), experienceToGain);
 
                 EssorRevamped.LOGGER.info("Rewarded {} with experience.", _armorPieceData.itemStack().getItemName().getString());
             });
