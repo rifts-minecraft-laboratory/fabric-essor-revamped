@@ -14,12 +14,12 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class AfterDamageEventHandler {
     public static void register() {
@@ -29,51 +29,61 @@ public class AfterDamageEventHandler {
     }
 
     // <editor-fold desc="Region - Hurt entity's armor handling after damage has been taken." defaultstate="collapsed">
-    public static void handleArmor(LivingEntity entity, DamageSource source, float damageTaken) {
-        List<ArmorPieceData> armorPieces = new ArrayList<>();
-        armorPieces.add(new ArmorPieceData(EquipmentSlot.HEAD, entity.getItemBySlot(EquipmentSlot.HEAD)));
-        armorPieces.add(new ArmorPieceData(EquipmentSlot.CHEST, entity.getItemBySlot(EquipmentSlot.CHEST)));
-        armorPieces.add(new ArmorPieceData(EquipmentSlot.LEGS, entity.getItemBySlot(EquipmentSlot.LEGS)));
-        armorPieces.add(new ArmorPieceData(EquipmentSlot.FEET, entity.getItemBySlot(EquipmentSlot.FEET)));
+    public static void handleArmor(LivingEntity entity, DamageSource damageSource, float damageTaken) {
+        if (damageSource.is(DamageTypes.DROWN)) return;
 
-        if (source.is(DamageTypes.DROWN)) return;
+        for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+            if (equipmentSlot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) continue;
 
-        armorPieces.forEach(armorPieceData -> {
-            EssorRevamped.LOGGER.info("Gathering data from {}.", armorPieceData.itemStack().getItemName().getString());
+            Optional<ArmorPieceData> armorPieceData = AfterDamageEventHandler.gatherArmorData(equipmentSlot, entity, damageSource);
+            if (armorPieceData.isEmpty()) continue;
+            AfterDamageEventHandler.rewardArmorPiece(armorPieceData.get(), damageSource, damageTaken);
+        }
+    }
 
-            ItemAttributeModifiers itemAttributeModifiers = armorPieceData.itemStack().get(DataComponents.ATTRIBUTE_MODIFIERS);
-            if (itemAttributeModifiers == null) {
-                EssorRevamped.LOGGER.warn("Can't gather data from {} as it has no attribute modifier data component.", armorPieceData.itemStack().getItemName().getString());
-                return;
-            }
+    public static Optional<ArmorPieceData> gatherArmorData(EquipmentSlot equipmentSlot, LivingEntity entity, DamageSource damageSource) {
+        ArmorPieceData armorPieceData = new ArmorPieceData(equipmentSlot, entity.getItemBySlot(equipmentSlot));
+        if (armorPieceData.itemStack().getItem() == Items.AIR) return Optional.empty();
 
-            ArmorPieceData _armorPieceData = armorPieceData
-                .withArmor(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR))
-                .withArmorToughness(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS));
+        EssorRevamped.LOGGER.info("Gathering data from {}.", armorPieceData.itemStack().getItemName().getString());
 
-            for (EnchantmentProtectionRule enchantmentProtectionRule : EnchantmentHelper.enchantmentProtectionRules) {
-                if (!enchantmentProtectionRule.appliesTo().test(source)) continue;
+        ItemAttributeModifiers itemAttributeModifiers = armorPieceData.itemStack().get(DataComponents.ATTRIBUTE_MODIFIERS);
+        if (itemAttributeModifiers == null) {
+            EssorRevamped.LOGGER.warn("Can't gather data from {} as it has no attribute modifier data component.", armorPieceData.itemStack().getItemName().getString());
+            return Optional.empty();
+        }
 
-                Map.Entry<Holder<Enchantment>, Integer> enchantment = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), enchantmentProtectionRule.enchantment());
+        ArmorPieceData _armorPieceData = armorPieceData
+            .withArmor(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR))
+            .withArmorToughness(AttributeHelper.getAttributeValue(itemAttributeModifiers, Attributes.ARMOR_TOUGHNESS));
 
-                if (enchantment == null) continue;
+        for (EnchantmentProtectionRule enchantmentProtectionRule : EnchantmentHelper.enchantmentProtectionRules) {
+            if (!enchantmentProtectionRule.appliesTo().test(damageSource)) continue;
 
-                _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (enchantmentProtectionRule.baseEnchantmentProtectionFactor() * enchantment.getValue()));
-            };
+            Map.Entry<Holder<Enchantment>, Integer> enchantment = EnchantmentHelper.getEnchantment(_armorPieceData.itemStack().getEnchantments(), enchantmentProtectionRule.enchantment());
 
-            EssorRevamped.LOGGER.info("Gathered data from {}.", _armorPieceData.itemStack().getItemName().getString());
-            EssorRevamped.LOGGER.info("Rewarding {} with experience.", _armorPieceData.itemStack().getItemName().getString());
+            if (enchantment == null) continue;
 
-            if (source.is(DamageTypes.FALL)) {
-                if (_armorPieceData.equipmentSlot() != EquipmentSlot.FEET) return;
-            }
+            _armorPieceData = _armorPieceData.withEnchantmentProtectionFactor(_armorPieceData.enchantmentProtectionFactor() + (enchantmentProtectionRule.baseEnchantmentProtectionFactor() * enchantment.getValue()));
+        }
 
-            float experienceToGain = (float) (damageTaken * (1f + (_armorPieceData.armor() * 0.05f) + (_armorPieceData.armorToughness() * 0.10f) + (_armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
+        EssorRevamped.LOGGER.info("Gathered data from {}.", _armorPieceData.itemStack().getItemName().getString());
 
-            ProgressionService.progressItem(_armorPieceData.itemStack(), experienceToGain);
+        return Optional.of(_armorPieceData);
+    }
 
-            EssorRevamped.LOGGER.info("Rewarded {} with experience.", _armorPieceData.itemStack().getItemName().getString());
-        });
+    public static void rewardArmorPiece(ArmorPieceData armorPieceData, DamageSource damageSource, float damageTaken) {
+        EssorRevamped.LOGGER.info("Rewarding {} with experience.", armorPieceData.itemStack().getItemName().getString());
+
+        if (damageSource.is(DamageTypes.FALL)) {
+            if (armorPieceData.equipmentSlot() != EquipmentSlot.FEET) return;
+        }
+
+        float experienceToGain = (float) (damageTaken * (1f + (armorPieceData.armor() * 0.05f) + (armorPieceData.armorToughness() * 0.10f) + (armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
+
+        ProgressionService.progressItem(armorPieceData.itemStack(), experienceToGain);
+
+        EssorRevamped.LOGGER.info("Rewarded {} with experience.", armorPieceData.itemStack().getItemName().getString());
     }
     // </editor-fold>
 
