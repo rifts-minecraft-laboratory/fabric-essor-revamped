@@ -12,7 +12,7 @@ import java.util.Optional;
 public class AfterBlockBreakEventHandler {
     public static void register() {
         PlayerBlockBreakEvents.AFTER.register((world, player, blockPos, blockState, blockEntity) -> {
-            Optional<ExperienceTable> experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getActiveItem(), ActionType.BLOCK_BREAKING);
+            Optional<ExperienceTable> experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getMainHandItem(), ActionType.BLOCK_BREAKING);
             if (experienceTable.isEmpty()) return;
             float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
 
