@@ -31,7 +31,7 @@ public class ExperienceTableService {
             path = "experience_tables/block-breaking-pickaxe.json";
         } else if (itemStack.is(ItemTags.SHOVELS) && actionType.is(ActionType.BLOCK_BREAKING)) {
             path = "experience_tables/block-breaking-shovel.json";
-        } else if (itemStack.is(ConventionalItemTags.MELEE_WEAPON_TOOLS) || itemStack.is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) {
+        } else if ((itemStack.is(ConventionalItemTags.MELEE_WEAPON_TOOLS) || itemStack.is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) && actionType.is(ActionType.ENTITY_KILLING)) {
             path = "experience_tables/killing-global.json";
         }
 
