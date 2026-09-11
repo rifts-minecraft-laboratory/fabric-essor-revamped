@@ -14,6 +14,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -24,7 +25,10 @@ import java.util.Optional;
 public class AfterDamageEventHandler {
     public static void register() {
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, damageSource, baseDamageTaken, damageTaken, blocked) -> {
+//            EssorRevamped.LOGGER.error("BDT - " + baseDamageTaken);
+//            EssorRevamped.LOGGER.error("DT - " + damageTaken);
             AfterDamageEventHandler.handleArmor(entity, damageSource, damageTaken);
+            AfterDamageEventHandler.handleShield(entity, baseDamageTaken, blocked);
         });
     }
 
@@ -88,8 +92,21 @@ public class AfterDamageEventHandler {
     // </editor-fold>
 
     // <editor-fold desc="Region - Hurt entity's shield handling after damage has been blocked." defaultstate="collapsed">
-    public static void handleShield() {
-        // To implement.
+    public static void handleShield(LivingEntity entity, float baseDamageTaken, boolean blocked) {
+        if (!blocked) return;
+
+        ItemStack shield = ItemStack.EMPTY;
+        if (entity.getOffhandItem().getItem() == Items.SHIELD) shield = entity.getOffhandItem();
+        if (entity.getMainHandItem().getItem() == Items.SHIELD) shield = entity.getMainHandItem();
+        if (shield.isEmpty()) return;
+
+        EssorRevamped.LOGGER.info("Rewarding {} with experience.", shield.getItemName().getString());
+
+        float experienceToGain = (float) (baseDamageTaken * 4.0f);
+
+        ProgressionService.progressItem(shield, experienceToGain);
+
+        EssorRevamped.LOGGER.info("Rewarded {} with experience.", shield.getItemName().getString());
     }
     // </editor-fold>
 
