@@ -16,7 +16,7 @@ public class AfterBlockBreakEventHandler {
             if (experienceTable.isEmpty()) return;
             float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
 
-            ProgressionService.progressItem(player.getActiveItem(), experienceToGain);
+            ProgressionService.progressItem(player.getMainHandItem(), experienceToGain);
         });
     }
 }
