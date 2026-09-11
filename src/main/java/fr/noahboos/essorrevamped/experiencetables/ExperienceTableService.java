@@ -5,6 +5,7 @@ import com.mojang.serialization.JsonOps;
 import fr.noahboos.essorrevamped.EssorRevamped;
 import fr.noahboos.essorrevamped.enums.ActionType;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.references.ItemIds;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -29,6 +30,8 @@ public class ExperienceTableService {
             path = "experience_tables/block-breaking-hoe.json";
         } else if (itemStack.is(ItemTags.PICKAXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
             path = "experience_tables/block-breaking-pickaxe.json";
+        } else if (itemStack.is(ItemIds.SHEARS) && actionType.is(ActionType.BLOCK_BREAKING)) {
+            path = "experience_tables/block-breaking-shears.json";
         } else if (itemStack.is(ItemTags.SHOVELS) && actionType.is(ActionType.BLOCK_BREAKING)) {
             path = "experience_tables/block-breaking-shovel.json";
         } else if ((itemStack.is(ConventionalItemTags.MELEE_WEAPON_TOOLS) || itemStack.is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) && actionType.is(ActionType.ENTITY_KILLING)) {

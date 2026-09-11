@@ -34,6 +34,10 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
             BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE), 20f
         )));
 
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-shears"), new ExperienceTable(Map.of(
+            BuiltInRegistries.BLOCK.getKey(Blocks.SPRUCE_LEAVES), 15f
+        )));
+
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-shovel"), new ExperienceTable(Map.of(
             BuiltInRegistries.BLOCK.getKey(Blocks.GRASS_BLOCK), 25f
         )));
