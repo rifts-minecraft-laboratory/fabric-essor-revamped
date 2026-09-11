@@ -5,7 +5,9 @@ import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionS
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 
 public class AllowDamageEventHandler {
@@ -22,8 +24,14 @@ public class AllowDamageEventHandler {
         EssorRevamped.LOGGER.info(damageSource.getEntity().getName().getString());
 
         ItemStack weapon = ItemStack.EMPTY;
-        if (livingEntity.getOffhandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = livingEntity.getOffhandItem();
-        if (livingEntity.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS) || livingEntity.getMainHandItem().is(ConventionalItemTags.MELEE_WEAPON_TOOLS)) weapon = livingEntity.getWeaponItem();
+        if (damageSource.is(DamageTypes.ARROW)) {
+            if (livingEntity.getOffhandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = livingEntity.getOffhandItem();
+            if (livingEntity.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = livingEntity.getMainHandItem();
+        } else if (damageSource.is(DamageTypes.PLAYER_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK) ||damageSource.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
+            weapon = livingEntity.getMainHandItem();
+        } else if (damageSource.is(DamageTypes.TRIDENT)) {
+            weapon = ((ThrownTrident) damageSource.getDirectEntity()).getWeaponItem();
+        }
         if (weapon.isEmpty()) return;
 
         EssorRevamped.LOGGER.info("Rewarding {} with experience.", weapon.getItemName().getString());

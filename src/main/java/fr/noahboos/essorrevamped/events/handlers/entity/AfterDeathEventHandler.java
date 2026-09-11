@@ -9,7 +9,9 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
@@ -26,8 +28,14 @@ public class AfterDeathEventHandler {
         if (!(damageSource.getEntity() instanceof LivingEntity killer)) return;
 
         ItemStack weapon = ItemStack.EMPTY;
-        if (killer.getOffhandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = killer.getOffhandItem();
-        if (killer.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS) || killer.getMainHandItem().is(ConventionalItemTags.MELEE_WEAPON_TOOLS)) weapon = killer.getWeaponItem();
+        if (damageSource.is(DamageTypes.ARROW)) {
+            if (killer.getOffhandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = killer.getOffhandItem();
+            if (killer.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = killer.getMainHandItem();
+        } else if (damageSource.is(DamageTypes.PLAYER_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
+            weapon = killer.getMainHandItem();
+        } else if (damageSource.is(DamageTypes.TRIDENT)) {
+            weapon = ((ThrownTrident) damageSource.getDirectEntity()).getWeaponItem();
+        }
         if (weapon.isEmpty()) return;
 
         EssorRevamped.LOGGER.info("Rewarding {} with experience.", weapon.getItemName().getString());
