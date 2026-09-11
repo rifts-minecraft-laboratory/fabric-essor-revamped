@@ -35,7 +35,7 @@ public class ExperienceTableService {
         } else if (itemStack.is(ItemTags.SHOVELS) && actionType.is(ActionType.BLOCK_BREAKING)) {
             path = "experience_tables/block-breaking-shovel.json";
         } else if ((itemStack.is(ConventionalItemTags.MELEE_WEAPON_TOOLS) || itemStack.is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) && actionType.is(ActionType.ENTITY_KILLING)) {
-            path = "experience_tables/killing-global.json";
+            path = "experience_tables/entity-killing-global.json";
         }
 
         if (path.isEmpty()) return Optional.empty();

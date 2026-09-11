@@ -42,7 +42,7 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
             BuiltInRegistries.BLOCK.getKey(Blocks.GRASS_BLOCK), 25f
         )));
 
-        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "killing-global"), new ExperienceTable(Map.of(
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "entity-killing-global"), new ExperienceTable(Map.of(
             BuiltInRegistries.ENTITY_TYPE.getKey(EntityTypes.ZOMBIE), 2500.0f
         )));
     }
