@@ -13,6 +13,10 @@
     {
       "id": "#c:tools",
       "required": false
+    },
+    {
+      "id": "minecraft:elytra",
+      "required": false
     }
   ]
 }

@@ -25,6 +25,7 @@ public class EssorRevampedItemTagProvider extends FabricTagsProvider.ItemTagsPro
         builder(HAS_PROGRESSION)
             .addOptionalTag(ConventionalItemTags.HUMANOID_ARMORS)
             .addOptionalTag(ConventionalItemTags.TOOLS)
+            .addOptional(ItemIds.ELYTRA)
             .remove(ItemIds.BRUSH)
             .remove(ItemIds.FISHING_ROD)
             .remove(ItemIds.FLINT_AND_STEEL)
