@@ -16,7 +16,7 @@ public class AllowDamageEventHandler {
         });
     }
 
-    // <editor-fold desc="Region - Damage source's weapon handling after damage has been taken." defaultstate="collapsed">
+    // <editor-fold desc="Region - Damage source's weapon handling after damage has been dealt." defaultstate="collapsed">
     public static void handleWeapon(DamageSource damageSource, float damage) {
         if (!(damageSource.getEntity() instanceof LivingEntity livingEntity)) return;
         EssorRevamped.LOGGER.info(damageSource.getEntity().getName().getString());
