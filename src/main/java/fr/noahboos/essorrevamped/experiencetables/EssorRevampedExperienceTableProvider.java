@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.Map;
@@ -35,6 +36,10 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
 
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-shovel"), new ExperienceTable(Map.of(
             BuiltInRegistries.BLOCK.getKey(Blocks.GRASS_BLOCK), 25f
+        )));
+
+        provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "killing-global"), new ExperienceTable(Map.of(
+            BuiltInRegistries.ENTITY_TYPE.getKey(EntityTypes.ZOMBIE), 2500.0f
         )));
     }
 
