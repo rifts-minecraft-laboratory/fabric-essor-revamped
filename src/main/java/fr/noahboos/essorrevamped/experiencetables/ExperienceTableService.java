@@ -14,38 +14,40 @@ import net.minecraft.world.item.ItemStack;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 
 public class ExperienceTableService {
-    public static ExperienceTable findExperienceTable(ResourceManager resourceManager, ItemStack itemStack, ActionType actionType) {
-        Resource resource = null;
-        try {
-            String path = "";
+    public static Optional<ExperienceTable> findExperienceTable(ResourceManager resourceManager, ItemStack itemStack, ActionType actionType) {
+        if (itemStack.isEmpty()) return Optional.empty();
 
-            if (itemStack.is(ItemTags.AXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
-                path = "experience_tables/block-breaking-axe.json";
-            }
-            if (itemStack.is(ItemTags.HOES) && actionType.is(ActionType.BLOCK_BREAKING)) {
-                path = "experience_tables/block-breaking-hoe.json";
-            }
-            if (itemStack.is(ItemTags.PICKAXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
-                path = "experience_tables/block-breaking-pickaxe.json";
-            }
-            if (itemStack.is(ItemTags.SHOVELS) && actionType.is(ActionType.BLOCK_BREAKING)) {
-                path = "experience_tables/block-breaking-shovel.json";
-            }
+        String path = "";
 
-            resource = resourceManager.getResourceOrThrow(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, path));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        if (itemStack.is(ItemTags.AXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
+            path = "experience_tables/block-breaking-axe.json";
+        } else if (itemStack.is(ItemTags.HOES) && actionType.is(ActionType.BLOCK_BREAKING)) {
+            path = "experience_tables/block-breaking-hoe.json";
+        } else if (itemStack.is(ItemTags.PICKAXES) && actionType.is(ActionType.BLOCK_BREAKING)) {
+            path = "experience_tables/block-breaking-pickaxe.json";
+        } else if (itemStack.is(ItemTags.SHOVELS) && actionType.is(ActionType.BLOCK_BREAKING)) {
+            path = "experience_tables/block-breaking-shovel.json";
         }
 
-        if (resource == null) return null;
+        if (path.isEmpty()) return Optional.empty();
 
-        try (BufferedReader reader = resource.openAsReader()) {
+        Optional<Resource> resource = resourceManager.getResource(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, path));
+        if (resource.isEmpty()) {
+            EssorRevamped.LOGGER.warn("Couldn't parse an experience table. The provided path is not recognized.");
+            return Optional.empty();
+        }
+
+        try (BufferedReader reader = resource.get().openAsReader()) {
             JsonElement jsonElement = StrictJsonParser.parse(reader);
-            return ExperienceTable.CODEC.parse(JsonOps.INSTANCE, jsonElement).getOrThrow();
+            ExperienceTable experienceTable = ExperienceTable.CODEC.parse(JsonOps.INSTANCE, jsonElement).getOrThrow();
+            if (experienceTable == null) return Optional.empty();
+            return Optional.of(experienceTable);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            EssorRevamped.LOGGER.error("Couldn't parse an experience table : {}", String.valueOf(e));
+            return Optional.empty();
         }
     }
 }

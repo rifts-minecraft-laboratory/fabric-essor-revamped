@@ -7,12 +7,14 @@ import fr.noahboos.essorrevamped.experiencetables.ExperienceTableService;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
 
+import java.util.Optional;
+
 public class AfterBlockBreakEventHandler {
     public static void register() {
         PlayerBlockBreakEvents.AFTER.register((world, player, blockPos, blockState, blockEntity) -> {
-            ExperienceTable experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getActiveItem(), ActionType.BLOCK_BREAKING);
-            if (experienceTable == null) return;
-            float experienceToGain = experienceTable.values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
+            Optional<ExperienceTable> experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getActiveItem(), ActionType.BLOCK_BREAKING);
+            if (experienceTable.isEmpty()) return;
+            float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
 
             ProgressionService.progressItem(player.getActiveItem(), experienceToGain);
         });
