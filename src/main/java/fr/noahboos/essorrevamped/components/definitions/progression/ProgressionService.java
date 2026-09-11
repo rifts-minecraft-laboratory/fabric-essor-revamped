@@ -33,7 +33,7 @@ public class ProgressionService {
     public static Progression levelUp(Progression progression) {
         Progression _progression = progression;
 
-        while (_progression.experiencePoints() > _progression.experienceThreshold()) {
+        while (_progression.experiencePoints() >= _progression.experienceThreshold()) {
             _progression = _progression.withExperiencePoints(_progression.experiencePoints() - _progression.experienceThreshold());
             _progression = _progression.withExperienceLevel(_progression.experienceLevel() + 1);
         }
