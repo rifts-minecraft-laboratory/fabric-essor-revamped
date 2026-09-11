@@ -25,8 +25,6 @@ import java.util.Optional;
 public class AfterDamageEventHandler {
     public static void register() {
         ServerLivingEntityEvents.AFTER_DAMAGE.register((entity, damageSource, baseDamageTaken, damageTaken, blocked) -> {
-//            EssorRevamped.LOGGER.error("BDT - " + baseDamageTaken);
-//            EssorRevamped.LOGGER.error("DT - " + damageTaken);
             AfterDamageEventHandler.handleArmor(entity, damageSource, damageTaken);
             AfterDamageEventHandler.handleShield(entity, baseDamageTaken, blocked);
         });
@@ -107,12 +105,6 @@ public class AfterDamageEventHandler {
         ProgressionService.progressItem(shield, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", shield.getItemName().getString());
-    }
-    // </editor-fold>
-
-    // <editor-fold desc="Region - Damage source's weapon handling after damage has been taken." defaultstate="collapsed">
-    public static void handleWeapon() {
-        // To implement.
     }
     // </editor-fold>
 }
