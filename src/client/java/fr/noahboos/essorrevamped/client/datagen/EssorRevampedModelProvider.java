@@ -19,7 +19,7 @@ public class EssorRevampedModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
-        //
+        itemModelGenerators.generateFlatItem(EssorRevampedItems.MASTERY_LEVEL_UPGRADE_SMITHING_TEMPLATE, ModelTemplates.FLAT_ITEM);
     }
 
     @Override

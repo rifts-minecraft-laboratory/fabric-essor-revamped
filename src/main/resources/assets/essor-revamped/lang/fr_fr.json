@@ -1,5 +1,6 @@
 {
   "essor-revamped.components.progression.tooltip.experienceLevel": "Niveau %1$s : %2$s / %3$s",
   "essor-revamped.components.progression.tooltip.masteryLevel": "Maîtrise %1$s : %2$s",
-  "essor-revamped.components.progression.tooltip.experienceMultiplier": "Multiplicateur d'expériences : %1$s"
+  "essor-revamped.components.progression.tooltip.experienceMultiplier": "Multiplicateur d'expériences : %1$s",
+  "item.essor-revamped.mastery_level_upgrade_smithing_template": "Modèle d'amélioration du niveau de maîtrise"
 }
