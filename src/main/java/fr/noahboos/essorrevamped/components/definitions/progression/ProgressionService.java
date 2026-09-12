@@ -21,9 +21,12 @@ public class ProgressionService {
         itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
     }
 
-    public static Progression gainExperiencePoints(Progression progression, float experiencePoints) {
-        float _experiencePoints = BigDecimal.valueOf(progression.experiencePoints() + experiencePoints).setScale(3, RoundingMode.HALF_UP).floatValue();
-        Progression _progression = progression.withExperiencePoints(_experiencePoints);
+    public static Progression gainExperiencePoints(Progression progression, float experiencePointsToGain) {
+        float _experiencePointsToGain = experiencePointsToGain * progression.experienceMultiplier();
+        if (progression.experienceLevel() == progression.experienceLevelThreshold()) _experiencePointsToGain *= 0.25f;
+
+        float experiencePoints = BigDecimal.valueOf(progression.experiencePoints() + _experiencePointsToGain).setScale(3, RoundingMode.HALF_UP).floatValue();
+        Progression _progression = progression.withExperiencePoints(experiencePoints);
 
         _progression = ProgressionService.levelUp(_progression);
 
