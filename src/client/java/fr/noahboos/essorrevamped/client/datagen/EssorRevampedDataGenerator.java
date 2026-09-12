@@ -12,5 +12,6 @@ public class EssorRevampedDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(EssorRevampedItemTagProvider::new);
         pack.addProvider(EssorRevampedExperienceTableProvider::new);
+        pack.addProvider(EssorRevampedModelProvider::new);
     }
 }
