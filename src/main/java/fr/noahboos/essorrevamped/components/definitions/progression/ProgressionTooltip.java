@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 public final class ProgressionTooltip {
     public static void tooltip(Progression progression, Item.TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag, DataComponentGetter components) {
         tooltip.accept(Component.empty());
-        tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.experienceLevel", progression.experienceLevel(), progression.experiencePoints(), progression.experienceThreshold()));
+        tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.experienceLevel", progression.experienceLevel(), progression.experiencePoints(), progression.experiencePointThreshold()));
         tooltip.accept(Component.literal(getExperienceLevelProgressionBar(progression)));
         tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.masteryLevel", progression.masteryLevel(), getMasteryLevelProgressionBar(progression)));
         tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.experienceMultiplier", progression.experienceMultiplier()));
@@ -19,7 +19,7 @@ public final class ProgressionTooltip {
     public static String getExperienceLevelProgressionBar(Progression progression) {
         StringBuilder experienceLevelProgressBar = new StringBuilder();
         int experienceLevelProgressBarMaximumSegments = 25;
-        double ratio = (double)progression.experiencePoints() / progression.experienceThreshold();
+        double ratio = (double)progression.experiencePoints() / progression.experiencePointThreshold();
         int experienceLevelProgressBarFilledSegments = (int) Math.floor(Math.clamp(ratio, 0.0, 1.0) * experienceLevelProgressBarMaximumSegments);
         experienceLevelProgressBar.repeat("§6■", experienceLevelProgressBarFilledSegments);
         experienceLevelProgressBar.repeat("§7□", experienceLevelProgressBarMaximumSegments - experienceLevelProgressBarFilledSegments);
