@@ -83,7 +83,7 @@ public class AfterDamageEventHandler {
 
         float experienceToGain = (float) (damageTaken * (1f + (armorPieceData.armor() * 0.05f) + (armorPieceData.armorToughness() * 0.10f) + (armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
 
-        ProgressionService.progressItem(armorPieceData.itemStack(), experienceToGain);
+        ProgressionService.updateProgression(armorPieceData.itemStack(), experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", armorPieceData.itemStack().getItemName().getString());
     }
@@ -102,7 +102,7 @@ public class AfterDamageEventHandler {
 
         float experienceToGain = (float) (baseDamageTaken * 4.0f);
 
-        ProgressionService.progressItem(shield, experienceToGain);
+        ProgressionService.updateProgression(shield, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", shield.getItemName().getString());
     }

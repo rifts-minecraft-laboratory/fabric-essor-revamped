@@ -44,7 +44,7 @@ public class AfterDeathEventHandler {
         if (experienceTable.isEmpty()) return;
         float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.ENTITY_TYPE.getKey(victim.getType()), 15.0f);
 
-        ProgressionService.progressItem(weapon, experienceToGain);
+        ProgressionService.updateProgression(weapon, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", weapon.getItemName().getString());
     }

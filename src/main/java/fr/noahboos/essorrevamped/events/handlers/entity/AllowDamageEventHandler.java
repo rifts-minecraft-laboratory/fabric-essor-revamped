@@ -38,7 +38,7 @@ public class AllowDamageEventHandler {
 
         float experienceToGain = (float) (damage * 3.0f);
 
-        ProgressionService.progressItem(weapon, experienceToGain);
+        ProgressionService.updateProgression(weapon, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", weapon.getItemName().getString());
     }

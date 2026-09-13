@@ -1,20 +1,35 @@
 package fr.noahboos.essorrevamped.components.definitions.durability;
 
+import fr.noahboos.essorrevamped.EssorRevamped;
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
-import fr.noahboos.essorrevamped.components.definitions.progression.Progression;
+import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionService;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Optional;
+
 public class DurabilityService {
-    public static void updateDurability(ItemStack itemStack) {
+    public static Optional<Durability> getDurability(ItemStack itemStack) {
         Durability durability = itemStack.get(EssorRevampedComponents.DURABILITY);
-        Progression progression = itemStack.get(EssorRevampedComponents.PROGRESSION);
-        if (durability == null || progression == null) return;
 
-        durability = durability.withDurability(Durability.step * progression.experienceLevel());
+        if (durability == null) {
+            EssorRevamped.LOGGER.warn("No Durability data component were found on {}.", itemStack.hashCode());
+            return Optional.empty();
+        }
 
-        itemStack.set(EssorRevampedComponents.DURABILITY, durability);
-        itemStack.set(DataComponents.MAX_DAMAGE, itemStack.getItem().getDefaultInstance().getMaxDamage() + durability.durability());
+        return Optional.of(durability);
+    }
 
+    public static void updateDurability(ItemStack itemStack) {
+        getDurability(itemStack).ifPresent(durability -> {
+            ProgressionService.getProgression(itemStack).ifPresent(progression -> {
+                Durability _durability = durability
+                    .addDurabilityPoints(progression.experienceLevel());
+                int effectiveMaximumDurabilityPoints = itemStack.getItem().getDefaultInstance().getMaxDamage() + _durability.durabilityPoints();
+
+                itemStack.set(EssorRevampedComponents.DURABILITY, _durability);
+                itemStack.set(DataComponents.MAX_DAMAGE, effectiveMaximumDurabilityPoints);
+            });
+        });
     }
 }

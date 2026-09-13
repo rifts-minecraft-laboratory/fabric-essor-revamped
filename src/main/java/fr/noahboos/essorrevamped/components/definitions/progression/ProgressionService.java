@@ -5,57 +5,29 @@ import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
 import fr.noahboos.essorrevamped.components.definitions.durability.DurabilityService;
 import net.minecraft.world.item.ItemStack;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Optional;
 
 public class ProgressionService {
-    public static void progressItem(ItemStack itemStack, float experiencePoints) {
+    public static Optional<Progression> getProgression(ItemStack itemStack) {
         Progression progression = itemStack.get(EssorRevampedComponents.PROGRESSION);
 
         if (progression == null) {
-            EssorRevamped.LOGGER.error("Cannot apply any progress to the given item ({}), as no Progression data component has been found on it.", itemStack.getItemName().getString());
-            return;
+            EssorRevamped.LOGGER.warn("No Progression data component were found on {}.", itemStack.hashCode());
+            return Optional.empty();
         }
 
-        Progression _progression = ProgressionService.gainExperiencePoints(progression, experiencePoints);
+        return Optional.of(progression);
+    }
 
-        itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
+    public static void updateProgression(ItemStack itemStack, float experiencePoints) {
+        getProgression(itemStack).ifPresent(progression -> {
+            Progression _progression = progression
+                .addExperiencePoints(experiencePoints)
+                .addExperienceLevels();
+
+            itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
+        });
 
         DurabilityService.updateDurability(itemStack);
-    }
-
-    public static Progression gainExperiencePoints(Progression progression, float experiencePointsToGain) {
-        float _experiencePointsToGain = experiencePointsToGain * progression.experienceMultiplier();
-        if (progression.experienceLevel() == progression.experienceLevelThreshold()) _experiencePointsToGain *= 0.25f;
-
-        float experiencePoints = BigDecimal.valueOf(progression.experiencePoints() + _experiencePointsToGain).setScale(3, RoundingMode.HALF_UP).floatValue();
-        Progression _progression = progression.withExperiencePoints(experiencePoints);
-
-        _progression = ProgressionService.levelUp(_progression);
-
-        return _progression;
-    }
-
-    public static Progression levelUp(Progression progression) {
-        Progression _progression = progression;
-
-        while (_progression.experiencePoints() >= _progression.experiencePointThreshold() && _progression.experienceLevel() < _progression.experienceLevelThreshold()) {
-            _progression = _progression.withExperiencePoints(_progression.experiencePoints() - _progression.experiencePointThreshold());
-            _progression = _progression.withExperienceLevel(_progression.experienceLevel() + 1);
-        }
-
-        return _progression;
-    }
-
-    public static Progression masteryUp(Progression progression) {
-        if (!progression.isMasteryLevelUpgradable()) return progression;
-
-        Progression _progression = progression
-            .withMasteryLevel(progression.masteryLevel() + 1)
-            .withExperienceMultiplier(progression.experienceMultiplier() + 0.15f);
-
-        _progression = ProgressionService.levelUp(_progression);
-
-        return _progression;
     }
 }

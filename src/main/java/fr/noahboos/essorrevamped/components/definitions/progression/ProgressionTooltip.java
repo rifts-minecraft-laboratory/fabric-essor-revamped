@@ -29,7 +29,7 @@ public final class ProgressionTooltip {
     public static String getMasteryLevelProgressionBar(Progression progression) {
         StringBuilder masteryLevelProgressBar = new StringBuilder();
         masteryLevelProgressBar.repeat("§6★", Math.max(0, progression.masteryLevel()));
-        masteryLevelProgressBar.repeat("§7☆", Math.max(0, progression.maximumMasteryLevel() - progression.masteryLevel()));
+        masteryLevelProgressBar.repeat("§7☆", Math.max(0, Progression.MAXIMUM_MASTERY_LEVEL - progression.masteryLevel()));
         return masteryLevelProgressBar.toString();
     }
 }

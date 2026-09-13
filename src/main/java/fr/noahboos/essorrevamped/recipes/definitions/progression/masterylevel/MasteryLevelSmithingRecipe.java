@@ -70,11 +70,11 @@ public class MasteryLevelSmithingRecipe extends SimpleSmithingRecipe {
     }
 
     public static ItemStack applyProgress(ItemStack itemStack) {
-        Progression progression = itemStack.get(EssorRevampedComponents.PROGRESSION);
-        if (progression == null) return itemStack;
-        progression = ProgressionService.masteryUp(progression);
+        ProgressionService.getProgression(itemStack).ifPresent(progression -> {
+            Progression _progression = progression.addMasteryLevel();
 
-        itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
+            itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
+        });
 
         DurabilityService.updateDurability(itemStack);
 
