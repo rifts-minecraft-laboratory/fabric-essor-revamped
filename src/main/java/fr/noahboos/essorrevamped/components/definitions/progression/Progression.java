@@ -71,7 +71,7 @@ public record Progression(
             this.experiencePoints,
             this.experienceLevel,
             this.masteryLevel,
-            experienceMultiplier
+            Math.round(experienceMultiplier / 0.15f) * 0.15f
         );
     }
 
