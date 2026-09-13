@@ -1,5 +1,6 @@
 package fr.noahboos.essorrevamped.items;
 
+import fr.noahboos.essorrevamped.items.definitions.MasteryLevelUpgradeSmithingTemplateItem;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,7 +27,7 @@ public class EssorRevampedItems {
 
     public static final Item MASTERY_LEVEL_UPGRADE_SMITHING_TEMPLATE = register(
         EssorRevampedItemsIds.MASTERY_LEVEL_UPGRADE_SMITHING_TEMPLATE,
-        Item::new,
+        MasteryLevelUpgradeSmithingTemplateItem::new,
         new Item.Properties()
     );
 }

@@ -2,5 +2,9 @@
   "essor-revamped.components.progression.tooltip.experienceLevel": "Level %1$s : %2$s / %3$s",
   "essor-revamped.components.progression.tooltip.masteryLevel": "Mastery %1$s : %2$s",
   "essor-revamped.components.progression.tooltip.experienceMultiplier": "Experience multiplier : %1$s",
-  "item.essor-revamped.mastery_level_upgrade_smithing_template": "Mastery level upgrade template"
+  "item.essor-revamped.mastery_level_upgrade_smithing_template": "Mastery level upgrade",
+  "item.essor-revamped.mastery_level_upgrade_smithing_template.applies_to": "Any kind of equipment compatible with Essor Revamped.",
+  "item.essor-revamped.mastery_level_upgrade_smithing_template.ingredients": "Amethyst shard",
+  "item.essor-revamped.mastery_level_upgrade_smithing_template.base_slot_description": "Add an armor, a weapon or a tool compatible with Essor Revamped.",
+  "item.essor-revamped.mastery_level_upgrade_smithing_template.additions_slot_description": "Add an amethyst shard."
 }
