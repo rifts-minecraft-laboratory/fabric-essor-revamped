@@ -32,7 +32,7 @@ public record Progression(
     }
 
     public int experienceLevelThreshold() {
-        return 100 * this.masteryLevel() + 100;
+        return Math.min(100 * this.masteryLevel() + 100, 1000);
     }
 
     public int maximumMasteryLevel() {
