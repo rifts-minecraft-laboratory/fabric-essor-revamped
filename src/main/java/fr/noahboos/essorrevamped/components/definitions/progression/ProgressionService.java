@@ -2,6 +2,7 @@ package fr.noahboos.essorrevamped.components.definitions.progression;
 
 import fr.noahboos.essorrevamped.EssorRevamped;
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
+import fr.noahboos.essorrevamped.components.definitions.durability.DurabilityService;
 import net.minecraft.world.item.ItemStack;
 
 import java.math.BigDecimal;
@@ -19,6 +20,8 @@ public class ProgressionService {
         Progression _progression = ProgressionService.gainExperiencePoints(progression, experiencePoints);
 
         itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
+
+        DurabilityService.updateDurability(itemStack);
     }
 
     public static Progression gainExperiencePoints(Progression progression, float experiencePointsToGain) {

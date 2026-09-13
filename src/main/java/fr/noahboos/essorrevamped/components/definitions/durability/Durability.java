@@ -25,6 +25,10 @@ public record Durability(
 
     public static final int step = 1;
 
+    public Durability withDurability(int durability) {
+        return new Durability(durability);
+    }
+
     public static final Codec<Durability> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
             Codec.INT.fieldOf("durability").forGetter(Durability::durability)

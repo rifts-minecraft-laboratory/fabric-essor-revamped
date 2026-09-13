@@ -3,6 +3,7 @@ package fr.noahboos.essorrevamped.recipes.definitions.progression.masterylevel;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
+import fr.noahboos.essorrevamped.components.definitions.durability.DurabilityService;
 import fr.noahboos.essorrevamped.components.definitions.progression.Progression;
 import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionService;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -74,6 +75,8 @@ public class MasteryLevelSmithingRecipe extends SimpleSmithingRecipe {
         progression = ProgressionService.masteryUp(progression);
 
         itemStack.set(EssorRevampedComponents.PROGRESSION, progression);
+
+        DurabilityService.updateDurability(itemStack);
 
         return itemStack;
     }
