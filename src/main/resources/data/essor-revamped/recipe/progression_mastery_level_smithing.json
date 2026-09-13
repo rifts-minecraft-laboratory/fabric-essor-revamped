@@ -1,0 +1,6 @@
+{
+  "type": "essor-revamped:progression_mastery_level_smithing",
+  "template": "essor-revamped:mastery_level_upgrade_smithing_template",
+  "base": "#essor-revamped:has_progression",
+  "addition": "minecraft:amethyst_shard"
+}
