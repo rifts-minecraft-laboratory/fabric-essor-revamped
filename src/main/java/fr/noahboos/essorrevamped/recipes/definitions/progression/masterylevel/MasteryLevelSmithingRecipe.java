@@ -13,6 +13,7 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.item.crafting.display.SmithingRecipeDisplay;
+import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
@@ -49,6 +50,18 @@ public class MasteryLevelSmithingRecipe extends SimpleSmithingRecipe {
     );
 
     public static final RecipeSerializer<MasteryLevelSmithingRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
+
+    @Override
+    public boolean matches(@NonNull SmithingRecipeInput smithingRecipeInput, @NonNull Level level) {
+        ItemStack baseStack = smithingRecipeInput.base();
+        Progression progression = baseStack.get(EssorRevampedComponents.PROGRESSION);
+
+        return this.template.map(ingredient -> ingredient.test(smithingRecipeInput.template())).orElse(true)
+            && this.base.test(baseStack)
+            && this.addition.map(ingredient -> ingredient.test(smithingRecipeInput.addition())).orElse(true)
+            && progression != null
+            && progression.isMasteryLevelUpgradable();
+    }
 
     @Override
     public @NonNull ItemStack assemble(SmithingRecipeInput smithingRecipeInput) {

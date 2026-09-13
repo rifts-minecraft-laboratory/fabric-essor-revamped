@@ -35,6 +35,10 @@ public record Progression(
         return Math.min(100 * this.masteryLevel() + 100, 1000);
     }
 
+    public boolean isMasteryLevelUpgradable() {
+        return experienceLevel() >= experienceLevelThreshold() && masteryLevel() < maximumMasteryLevel();
+    }
+
     public int maximumMasteryLevel() {
         return 10;
     }

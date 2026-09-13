@@ -45,7 +45,7 @@ public class ProgressionService {
     }
 
     public static Progression masteryUp(Progression progression) {
-        if (progression.masteryLevel() >= progression.maximumMasteryLevel() || progression.experienceLevel() < progression.experienceLevelThreshold()) return progression;
+        if (!progression.isMasteryLevelUpgradable()) return progression;
 
         Progression _progression = progression
             .withMasteryLevel(progression.masteryLevel() + 1)
