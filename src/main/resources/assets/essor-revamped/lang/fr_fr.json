@@ -3,6 +3,7 @@
   "essor-revamped.components.progression.tooltip.experienceLevel": "Niveau %1$s : %2$s / %3$s",
   "essor-revamped.components.progression.tooltip.masteryLevel": "Maîtrise %1$s : %2$s",
   "essor-revamped.components.progression.tooltip.experienceMultiplier": "Multiplicateur d'expériences : %1$s",
+  "essor-revamped.toasts.progression.addExperienceToast.description": "+%1$s EXP - %2$s / %3$s EXP",
   "item.essor-revamped.mastery_level_upgrade_smithing_template": "Amélioration du niveau de maîtrise",
   "item.essor-revamped.mastery_level_upgrade_smithing_template.applies_to": "N'importe quelle pièce d'équipement compatible avec Essor Revamped.",
   "item.essor-revamped.mastery_level_upgrade_smithing_template.ingredients": "Éclat d'améthyste",
