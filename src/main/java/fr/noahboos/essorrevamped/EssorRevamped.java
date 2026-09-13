@@ -3,6 +3,7 @@ package fr.noahboos.essorrevamped;
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
 import fr.noahboos.essorrevamped.events.EssorRevampedEvents;
 import fr.noahboos.essorrevamped.items.EssorRevampedItems;
+import fr.noahboos.essorrevamped.recipes.EssorRevampedRecipes;
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.resources.Identifier;
@@ -23,6 +24,7 @@ public class EssorRevamped implements ModInitializer {
 		EssorRevampedComponents.initialize();
 		EssorRevampedEvents.initialize();
 		EssorRevampedItems.initialize();
+		EssorRevampedRecipes.initialize();
 
 		LOGGER.info("Hello Fabric world! Essor - Revamped is up. :D");
 	}
