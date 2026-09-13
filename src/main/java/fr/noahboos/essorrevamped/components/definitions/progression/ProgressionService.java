@@ -43,4 +43,14 @@ public class ProgressionService {
 
         return _progression;
     }
+
+    public static Progression masteryUp(Progression progression) {
+        Progression _progression = progression
+            .withMasteryLevel(progression.masteryLevel() + 1)
+            .withExperienceMultiplier(progression.experienceMultiplier() + 0.15f);
+
+        _progression = ProgressionService.levelUp(_progression);
+
+        return _progression;
+    }
 }
