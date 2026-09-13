@@ -5,6 +5,7 @@ import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionS
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,8 +29,8 @@ public class AllowDamageEventHandler {
         if (damageSource.is(DamageTypes.ARROW)) {
             if (livingEntity.getOffhandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = livingEntity.getOffhandItem();
             if (livingEntity.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = livingEntity.getMainHandItem();
-        } else if (damageSource.is(DamageTypes.PLAYER_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK) ||damageSource.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
-            weapon = livingEntity.getMainHandItem();
+        } else if (damageSource.is(DamageTypes.PLAYER_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
+            if (livingEntity.getMainHandItem().is(ConventionalItemTags.MELEE_WEAPON_TOOLS) || livingEntity.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = livingEntity.getMainHandItem();
         } else if (damageSource.is(DamageTypes.TRIDENT)) {
             weapon = ((ThrownTrident) damageSource.getDirectEntity()).getWeaponItem();
         }

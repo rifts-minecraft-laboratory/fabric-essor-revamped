@@ -33,7 +33,7 @@ public class AfterDeathEventHandler {
             if (killer.getOffhandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = killer.getOffhandItem();
             if (killer.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = killer.getMainHandItem();
         } else if (damageSource.is(DamageTypes.PLAYER_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK) || damageSource.is(DamageTypes.MOB_ATTACK_NO_AGGRO)) {
-            weapon = killer.getMainHandItem();
+            if (killer.getMainHandItem().is(ConventionalItemTags.MELEE_WEAPON_TOOLS) || killer.getMainHandItem().is(ConventionalItemTags.RANGED_WEAPON_TOOLS)) weapon = killer.getMainHandItem();
         } else if (damageSource.is(DamageTypes.TRIDENT)) {
             weapon = ((ThrownTrident) damageSource.getDirectEntity()).getWeaponItem();
         }
