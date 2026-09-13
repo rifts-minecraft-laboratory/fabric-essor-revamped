@@ -4,6 +4,7 @@ import fr.noahboos.essorrevamped.EssorRevamped;
 import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionService;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,7 +39,9 @@ public class AllowDamageEventHandler {
 
         float experienceToGain = (float) (damage * 3.0f);
 
-        ProgressionService.updateProgression(weapon, experienceToGain);
+        if (livingEntity instanceof ServerPlayer serverPlayer) {
+            ProgressionService.updateProgression(serverPlayer, weapon, experienceToGain);
+        } else ProgressionService.updateProgression(weapon, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", weapon.getItemName().getString());
     }

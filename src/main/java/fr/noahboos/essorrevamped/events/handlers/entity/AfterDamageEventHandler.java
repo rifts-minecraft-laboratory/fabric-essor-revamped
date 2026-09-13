@@ -9,6 +9,7 @@ import fr.noahboos.essorrevamped.records.EnchantmentProtectionRule;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -39,7 +40,7 @@ public class AfterDamageEventHandler {
 
             Optional<ArmorPieceData> armorPieceData = AfterDamageEventHandler.gatherArmorData(equipmentSlot, entity, damageSource);
             if (armorPieceData.isEmpty()) continue;
-            AfterDamageEventHandler.rewardArmorPiece(armorPieceData.get(), damageSource, damageTaken);
+            AfterDamageEventHandler.rewardArmorPiece(entity, armorPieceData.get(), damageSource, damageTaken);
         }
     }
 
@@ -74,7 +75,7 @@ public class AfterDamageEventHandler {
         return Optional.of(_armorPieceData);
     }
 
-    public static void rewardArmorPiece(ArmorPieceData armorPieceData, DamageSource damageSource, float damageTaken) {
+    public static void rewardArmorPiece(LivingEntity entity, ArmorPieceData armorPieceData, DamageSource damageSource, float damageTaken) {
         EssorRevamped.LOGGER.info("Rewarding {} with experience.", armorPieceData.itemStack().getItemName().getString());
 
         if (damageSource.is(DamageTypes.FALL)) {
@@ -83,7 +84,9 @@ public class AfterDamageEventHandler {
 
         float experienceToGain = (float) (damageTaken * (1f + (armorPieceData.armor() * 0.05f) + (armorPieceData.armorToughness() * 0.10f) + (armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
 
-        ProgressionService.updateProgression(armorPieceData.itemStack(), experienceToGain);
+        if (entity instanceof ServerPlayer serverPlayer) {
+            ProgressionService.updateProgression(serverPlayer, armorPieceData.itemStack(), experienceToGain);
+        } else ProgressionService.updateProgression(armorPieceData.itemStack(), experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", armorPieceData.itemStack().getItemName().getString());
     }
@@ -102,7 +105,9 @@ public class AfterDamageEventHandler {
 
         float experienceToGain = (float) (baseDamageTaken * 4.0f);
 
-        ProgressionService.updateProgression(shield, experienceToGain);
+        if (entity instanceof ServerPlayer serverPlayer) {
+            ProgressionService.updateProgression(serverPlayer, shield, experienceToGain);
+        } else ProgressionService.updateProgression(shield, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", shield.getItemName().getString());
     }

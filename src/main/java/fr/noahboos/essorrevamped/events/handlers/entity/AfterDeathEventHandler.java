@@ -8,6 +8,7 @@ import fr.noahboos.essorrevamped.experiencetables.ExperienceTableService;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,7 +45,9 @@ public class AfterDeathEventHandler {
         if (experienceTable.isEmpty()) return;
         float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.ENTITY_TYPE.getKey(victim.getType()), 15.0f);
 
-        ProgressionService.updateProgression(weapon, experienceToGain);
+        if (killer instanceof ServerPlayer serverPlayer) {
+            ProgressionService.updateProgression(serverPlayer, weapon, experienceToGain);
+        } else ProgressionService.updateProgression(weapon, experienceToGain);
 
         EssorRevamped.LOGGER.info("Rewarded {} with experience.", weapon.getItemName().getString());
     }

@@ -6,6 +6,7 @@ import fr.noahboos.essorrevamped.experiencetables.ExperienceTable;
 import fr.noahboos.essorrevamped.experiencetables.ExperienceTableService;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Optional;
 
@@ -16,7 +17,9 @@ public class AfterBlockBreakEventHandler {
             if (experienceTable.isEmpty()) return;
             float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
 
-            ProgressionService.updateProgression(player.getMainHandItem(), experienceToGain);
+            if (player instanceof ServerPlayer serverPlayer) {
+                ProgressionService.updateProgression(serverPlayer, player.getMainHandItem(), experienceToGain);
+            } else ProgressionService.updateProgression(player.getMainHandItem(), experienceToGain);
         });
     }
 }
