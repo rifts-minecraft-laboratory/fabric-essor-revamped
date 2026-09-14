@@ -40,12 +40,7 @@ public class ProgressionService {
     public static void updateProgression(ServerPlayer serverPlayer, ItemStack itemStack, float experiencePoints) {
         getProgression(itemStack).ifPresent(progression -> {
             IdentifierService.getIdentifier(itemStack).ifPresent(identifier -> {
-                float experiencePointsGained = experiencePoints * progression.experienceMultiplier();
-                if (progression.isExperienceLevelMaximised()) experiencePointsGained *= Progression.MAXIMUM_LEVEL_EXPERIENCE_MULTIPLIER;
-                experiencePointsGained = BigDecimal
-                    .valueOf(experiencePointsGained)
-                    .setScale(3, RoundingMode.HALF_UP)
-                    .floatValue();
+                float experiencePointsGained = progression.computeExperiencePointsToAdd(experiencePoints);
 
                 Progression _progression = progression
                     .addExperiencePoints(experiencePoints)

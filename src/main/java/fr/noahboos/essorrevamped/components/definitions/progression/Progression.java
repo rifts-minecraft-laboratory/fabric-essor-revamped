@@ -114,16 +114,23 @@ public record Progression(
     // </editor-fold>
 
     // <editor-fold desc="Region - Progression operations." defaultstate="collapsed">
-    public Progression addExperiencePoints(float experiencePointsToAdd) {
+    public float computeExperiencePointsToAdd(float experiencePointsToAdd) {
         float _experiencePointsToAdd = experiencePointsToAdd * experienceMultiplier;
         if (isExperienceLevelMaximised()) _experiencePointsToAdd *= MAXIMUM_LEVEL_EXPERIENCE_MULTIPLIER;
 
-        float totalExperiencePoints = BigDecimal
-            .valueOf(experiencePoints + _experiencePointsToAdd)
+        return BigDecimal
+            .valueOf(_experiencePointsToAdd)
+            .setScale(3, RoundingMode.HALF_UP)
+            .floatValue();
+    }
+
+    public Progression addExperiencePoints(float experiencePointsToAdd) {
+        float _experiencePoints = BigDecimal
+            .valueOf(experiencePoints + computeExperiencePointsToAdd(experiencePointsToAdd))
             .setScale(3, RoundingMode.HALF_UP)
             .floatValue();
 
-        return withExperiencePoints(totalExperiencePoints);
+        return withExperiencePoints(_experiencePoints);
     }
 
     public Progression addExperienceLevels() {
