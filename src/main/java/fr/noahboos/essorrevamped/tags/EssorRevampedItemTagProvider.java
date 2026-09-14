@@ -19,11 +19,21 @@ public class EssorRevampedItemTagProvider extends FabricTagsProvider.ItemTagsPro
     }
 
     public static final TagKey<Item> HAS_DURABILITY = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "has_durability"));
+    public static final TagKey<Item> HAS_IDENTIFIER = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "has_identifier"));
     public static final TagKey<Item> HAS_PROGRESSION = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "has_progression"));
 
     @Override
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         builder(HAS_DURABILITY)
+            .addOptionalTag(ConventionalItemTags.HUMANOID_ARMORS)
+            .addOptionalTag(ConventionalItemTags.TOOLS)
+            .addOptional(ItemIds.ELYTRA)
+            .remove(ItemIds.BRUSH)
+            .remove(ItemIds.FISHING_ROD)
+            .remove(ItemIds.FLINT_AND_STEEL)
+            .setReplace(true);
+
+        builder(HAS_IDENTIFIER)
             .addOptionalTag(ConventionalItemTags.HUMANOID_ARMORS)
             .addOptionalTag(ConventionalItemTags.TOOLS)
             .addOptional(ItemIds.ELYTRA)

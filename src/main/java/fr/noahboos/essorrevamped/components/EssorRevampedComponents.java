@@ -23,6 +23,12 @@ public class EssorRevampedComponents {
         DataComponentType.<Durability>builder().persistent(Durability.CODEC).build()
     );
 
+    public static final DataComponentType<fr.noahboos.essorrevamped.components.definitions.identifier.Identifier> IDENTIFIER = Registry.register(
+        BuiltInRegistries.DATA_COMPONENT_TYPE,
+        Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "components/identifier"),
+        DataComponentType.<fr.noahboos.essorrevamped.components.definitions.identifier.Identifier>builder().persistent(fr.noahboos.essorrevamped.components.definitions.identifier.Identifier.CODEC).build()
+    );
+
     public static final DataComponentType<Progression> PROGRESSION = Registry.register(
         BuiltInRegistries.DATA_COMPONENT_TYPE,
         Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "components/progression"),
