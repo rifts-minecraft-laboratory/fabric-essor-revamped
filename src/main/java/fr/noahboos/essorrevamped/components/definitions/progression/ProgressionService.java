@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 public class ProgressionService {
@@ -38,7 +40,12 @@ public class ProgressionService {
     public static void updateProgression(ServerPlayer serverPlayer, ItemStack itemStack, float experiencePoints) {
         getProgression(itemStack).ifPresent(progression -> {
             IdentifierService.getIdentifier(itemStack).ifPresent(identifier -> {
-                float previousExperiencePoints = progression.experiencePoints();
+                float experiencePointsGained = experiencePoints * progression.experienceMultiplier();
+                if (progression.isExperienceLevelMaximised()) experiencePointsGained *= Progression.MAXIMUM_LEVEL_EXPERIENCE_MULTIPLIER;
+                experiencePointsGained = BigDecimal
+                    .valueOf(experiencePointsGained)
+                    .setScale(3, RoundingMode.HALF_UP)
+                    .floatValue();
 
                 Progression _progression = progression
                     .addExperiencePoints(experiencePoints)
@@ -49,7 +56,7 @@ public class ProgressionService {
                 ServerPlayNetworking.send(serverPlayer, new AddExperienceToastPayload(
                     identifier.uuid(),
                     itemStack,
-                    _progression.experiencePoints() - previousExperiencePoints
+                    experiencePointsGained
                 ));
             });
         });
