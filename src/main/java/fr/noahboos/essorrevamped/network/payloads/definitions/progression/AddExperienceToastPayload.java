@@ -8,7 +8,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
+import java.util.UUID;
+
 public record AddExperienceToastPayload(
+    UUID uuid,
     ItemStack itemStack,
     float experiencePointsGained
 ) implements CustomPacketPayload {
@@ -22,12 +25,14 @@ public record AddExperienceToastPayload(
     );
 
     private static void encode(RegistryFriendlyByteBuf buffer, AddExperienceToastPayload payload) {
+        buffer.writeUUID(payload.uuid());
         ItemStack.STREAM_CODEC.encode(buffer, payload.itemStack);
         buffer.writeFloat(payload.experiencePointsGained);
     }
 
     private static AddExperienceToastPayload decode(RegistryFriendlyByteBuf buffer) {
         return new AddExperienceToastPayload(
+            buffer.readUUID(),
             ItemStack.STREAM_CODEC.decode(buffer),
             buffer.readFloat()
         );

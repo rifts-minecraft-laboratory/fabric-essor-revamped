@@ -3,6 +3,7 @@ package fr.noahboos.essorrevamped.components.definitions.progression;
 import fr.noahboos.essorrevamped.EssorRevamped;
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
 import fr.noahboos.essorrevamped.components.definitions.durability.DurabilityService;
+import fr.noahboos.essorrevamped.components.definitions.identifier.IdentifierService;
 import fr.noahboos.essorrevamped.network.payloads.definitions.progression.AddExperienceToastPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,18 +37,21 @@ public class ProgressionService {
 
     public static void updateProgression(ServerPlayer serverPlayer, ItemStack itemStack, float experiencePoints) {
         getProgression(itemStack).ifPresent(progression -> {
-            float previousExperiencePoints = progression.experiencePoints();
+            IdentifierService.getIdentifier(itemStack).ifPresent(identifier -> {
+                float previousExperiencePoints = progression.experiencePoints();
 
-            Progression _progression = progression
-                .addExperiencePoints(experiencePoints)
-                .addExperienceLevels();
+                Progression _progression = progression
+                    .addExperiencePoints(experiencePoints)
+                    .addExperienceLevels();
 
-            itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
+                itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
 
-            ServerPlayNetworking.send(serverPlayer, new AddExperienceToastPayload(
-                itemStack,
-                _progression.experiencePoints() - previousExperiencePoints
-            ));
+                ServerPlayNetworking.send(serverPlayer, new AddExperienceToastPayload(
+                    identifier.uuid(),
+                    itemStack,
+                    _progression.experiencePoints() - previousExperiencePoints
+                ));
+            });
         });
 
         DurabilityService.updateDurability(itemStack);

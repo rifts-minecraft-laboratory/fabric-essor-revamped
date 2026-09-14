@@ -7,7 +7,7 @@ public class AddExperienceToastClientReceiver {
     public static void initialize() {
         ClientPlayNetworking.registerGlobalReceiver(AddExperienceToastPayload.TYPE, (payload, context) -> {
             context.client().execute(() -> {
-                AddExperienceToast.show(payload.itemStack(), payload.experiencePointsGained());
+                AddExperienceToast.show(payload.uuid(), payload.itemStack(), payload.experiencePointsGained());
             });
         });
     }
