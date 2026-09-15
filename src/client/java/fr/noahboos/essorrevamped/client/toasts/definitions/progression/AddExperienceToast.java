@@ -22,7 +22,7 @@ public class AddExperienceToast implements Toast {
     private long lastUpdateTime;
     private final ItemStack ITEM_STACK;
     private float experiencePointsGained;
-    private final Component TITLE;
+    private Component title;
     private Component description;
 
     public AddExperienceToast(UUID uuid, ItemStack itemStack, float experiencePointsGained, Component title, Component description) {
@@ -30,7 +30,7 @@ public class AddExperienceToast implements Toast {
         this.lastUpdateTime = Util.getMillis();
         this.ITEM_STACK = itemStack;
         this.experiencePointsGained = experiencePointsGained;
-        this.TITLE = title;
+        this.title = title;
         this.description = description;
     }
 
@@ -44,7 +44,7 @@ public class AddExperienceToast implements Toast {
 
     @Override
     public int width() {
-        return 220;
+        return 240;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class AddExperienceToast implements Toast {
         );
 
         graphics.fakeItem(this.ITEM_STACK, 8, 8);
-        graphics.text(Minecraft.getInstance().font, this.TITLE, 30, 7, 0xFFFFFFFF, false);
+        graphics.text(Minecraft.getInstance().font, this.title, 30, 7, 0xFFFFFFFF, false);
         graphics.text(Minecraft.getInstance().font, this.description, 30, 18, 0xFFAAAAAA, false);
     }
 
@@ -89,12 +89,13 @@ public class AddExperienceToast implements Toast {
             if (toastManager.getToast(AddExperienceToast.class, uuid) instanceof AddExperienceToast toast) {
                 toast.addExperiencePointsGained(experiencePointsGained);
                 toast.resetLastUpdateTime();
+                toast.title = Component.translatable("essor-revamped.toasts.progression.addExperienceToast.title", itemStack.getHoverName(), progression.experienceLevel());
                 toast.description = Component.translatable("essor-revamped.toasts.progression.addExperienceToast.description", toast.experiencePointsGained, progression.experiencePoints(), progression.experiencePointThreshold());
             } else toastManager.addToast(new AddExperienceToast(
                 uuid,
                 itemStack,
                 experiencePointsGained,
-                itemStack.getHoverName(),
+                Component.translatable("essor-revamped.toasts.progression.addExperienceToast.title", itemStack.getHoverName(), progression.experienceLevel()),
                 Component.translatable("essor-revamped.toasts.progression.addExperienceToast.description", experiencePointsGained, progression.experiencePoints(), progression.experiencePointThreshold())
             ));
         });
