@@ -42,7 +42,7 @@ public record Progression(
 
     // <editor-fold desc="Region - Additional getters and variables." defaultstate="collapsed">
     public int experiencePointThreshold() {
-        return 100 * this.experienceLevel() + 100;
+        return 25 * this.experienceLevel() + 25;
     }
 
     public int experienceLevelThreshold() {
