@@ -151,7 +151,23 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
         )));
 
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-shovel"), new ExperienceTable(Map.ofEntries(
-            //
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.GRASS_BLOCK), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DIRT_PATH), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DIRT), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.COARSE_DIRT), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.ROOTED_DIRT), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.FARMLAND), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.PODZOL), 1.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MYCELIUM), 1.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SNOW), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MUD), 2.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CLAY), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.GRAVEL), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SAND), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MOSS_BLOCK), 1.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.PALE_MOSS_BLOCK), 1.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SOUL_SAND), 1.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SOUL_SOIL), 1.5f)
         )));
 
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "entity-killing-global"), new ExperienceTable(Map.ofEntries(
