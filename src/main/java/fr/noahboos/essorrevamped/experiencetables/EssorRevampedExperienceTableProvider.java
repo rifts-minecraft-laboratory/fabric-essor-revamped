@@ -22,7 +22,73 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
     @Override
     protected void configure(BiConsumer<Identifier, ExperienceTable> provider, HolderLookup.Provider registryLookup) {
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-axe"), new ExperienceTable(Map.ofEntries(
-            //
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.ACACIA_LOG), 1.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_ACACIA_LOG), 1.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.ACACIA_WOOD), 1.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_ACACIA_WOOD), 1.75f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.BAMBOO), 2.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.BAMBOO_BLOCK), 2.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_BAMBOO_BLOCK), 2.25f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.BIRCH_LOG), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_BIRCH_LOG), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.BIRCH_WOOD), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_BIRCH_WOOD), 1.25f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CHERRY_LOG), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_CHERRY_LOG), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CHERRY_WOOD), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_CHERRY_WOOD), 2.5f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DARK_OAK_LOG), 2.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_DARK_OAK_LOG), 2.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DARK_OAK_WOOD), 2.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_DARK_OAK_WOOD), 2.0f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.JUNGLE_LOG), 2.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_JUNGLE_LOG), 2.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.JUNGLE_WOOD), 2.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_JUNGLE_WOOD), 2.25f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MANGROVE_LOG), 3.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_MANGROVE_LOG), 3.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MANGROVE_WOOD), 3.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_MANGROVE_WOOD), 3.0f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MUSHROOM_STEM), 2.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.RED_MUSHROOM_BLOCK), 2.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.BROWN_MUSHROOM_BLOCK), 2.0f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.OAK_LOG), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_OAK_LOG), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.OAK_WOOD), 1.0f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_OAK_WOOD), 1.0f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.PALE_OAK_LOG), 2.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_PALE_OAK_LOG), 2.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.PALE_OAK_WOOD), 2.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_PALE_OAK_WOOD), 2.75f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SPRUCE_LOG), 1.50f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_SPRUCE_LOG), 1.50f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SPRUCE_WOOD), 1.50f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_SPRUCE_WOOD), 1.50f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CRIMSON_STEM), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_CRIMSON_STEM), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CRIMSON_HYPHAE), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_CRIMSON_HYPHAE), 2.5f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.WARPED_STEM), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_WARPED_STEM), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.WARPED_HYPHAE), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.STRIPPED_WARPED_HYPHAE), 2.5f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.MELON), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.PUMPKIN), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CARVED_PUMPKIN), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.JACK_O_LANTERN), 1.25f)
         )));
 
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-hoe"), new ExperienceTable(Map.ofEntries(
@@ -50,6 +116,7 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.GOLD_ORE), 2.0f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DIAMOND_ORE), 2.5f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.EMERALD_ORE), 3.0f),
+
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE), 1.5f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_COPPER_ORE), 1.875f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_COAL_ORE), 2.25f),
@@ -57,8 +124,10 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_GOLD_ORE), 3.0f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_DIAMOND_ORE), 3.75f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.DEEPSLATE_EMERALD_ORE), 4.5f),
+
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.OBSIDIAN), 3.0f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CRYING_OBSIDIAN), 3.0f),
+
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.NETHERRACK), 0.125f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CRIMSON_NYLIUM), 0.125f),
             Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.WARPED_NYLIUM), 0.125f),
