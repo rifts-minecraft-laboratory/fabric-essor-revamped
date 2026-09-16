@@ -82,7 +82,7 @@ public class AfterDamageEventHandler {
             if (armorPieceData.equipmentSlot() != EquipmentSlot.FEET) return;
         }
 
-        float experienceToGain = (float) (damageTaken * (1f + (armorPieceData.armor() * 0.05f) + (armorPieceData.armorToughness() * 0.10f) + (armorPieceData.enchantmentProtectionFactor() * 0.10f))) * 2.0f;
+        float experienceToGain = (float) (damageTaken * (1f + (armorPieceData.armor() * 0.05f) + (armorPieceData.armorToughness() * 0.10f) + (armorPieceData.enchantmentProtectionFactor() * 0.10f)));
 
         if (entity instanceof ServerPlayer serverPlayer) {
             ProgressionService.updateProgression(serverPlayer, armorPieceData.itemStack(), experienceToGain);

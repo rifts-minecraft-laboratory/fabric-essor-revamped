@@ -43,7 +43,7 @@ public class AfterDeathEventHandler {
 
         Optional<ExperienceTable> experienceTable = ExperienceTableService.findExperienceTable(victim.level().getServer().getResourceManager(), weapon, ActionType.ENTITY_KILLING);
         if (experienceTable.isEmpty()) return;
-        float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.ENTITY_TYPE.getKey(victim.getType()), 15.0f);
+        float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.ENTITY_TYPE.getKey(victim.getType()), 5.0f);
 
         if (killer instanceof ServerPlayer serverPlayer) {
             ProgressionService.updateProgression(serverPlayer, weapon, experienceToGain);

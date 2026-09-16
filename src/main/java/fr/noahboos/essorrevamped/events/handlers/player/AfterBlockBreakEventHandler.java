@@ -15,7 +15,7 @@ public class AfterBlockBreakEventHandler {
         PlayerBlockBreakEvents.AFTER.register((world, player, blockPos, blockState, blockEntity) -> {
             Optional<ExperienceTable> experienceTable = ExperienceTableService.findExperienceTable(world.getServer().getResourceManager(), player.getMainHandItem(), ActionType.BLOCK_BREAKING);
             if (experienceTable.isEmpty()) return;
-            float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0f);
+            float experienceToGain = experienceTable.get().values().getOrDefault(BuiltInRegistries.BLOCK.getKey(blockState.getBlock()), 0.5f);
 
             if (player instanceof ServerPlayer serverPlayer) {
                 ProgressionService.updateProgression(serverPlayer, player.getMainHandItem(), experienceToGain);
