@@ -92,7 +92,14 @@ public class EssorRevampedExperienceTableProvider extends FabricCodecDataProvide
         )));
 
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-hoe"), new ExperienceTable(Map.ofEntries(
-            //
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.NETHER_WART_BLOCK), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.WARPED_WART_BLOCK), 2.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.SHROOMLIGHT), 2.5f),
+
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.BEETROOTS), 1.25f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.CARROTS), 1.75f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.POTATOES), 1.5f),
+            Map.entry(BuiltInRegistries.BLOCK.getKey(Blocks.WHEAT), 1.0f)
         )));
 
         provider.accept(Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "block-breaking-pickaxe"), new ExperienceTable(Map.ofEntries(
