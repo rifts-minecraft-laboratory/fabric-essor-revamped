@@ -20,10 +20,13 @@
 		],
 		"client": [
 			"fr.noahboos.essorrevamped.client.EssorRevampedClient"
+		],
+		"fabric-datagen": [
+			"fr.noahboos.essorrevamped.client.datagen.EssorRevampedDataGenerator"
 		]
 	},
 	"mixins": [
-		"essor-revamped.mixins.json",
+      "essor-revamped.mixins.json",
 		{
 			"config": "essor-revamped.client.mixins.json",
 			"environment": "client"

@@ -1,10 +1,13 @@
 package fr.noahboos.essorrevamped.client;
 
+import fr.noahboos.essorrevamped.client.toasts.definitions.progression.AddExperienceLevelToastClientReceiver;
+import fr.noahboos.essorrevamped.client.toasts.definitions.progression.AddExperiencePointsToastClientReceiver;
 import net.fabricmc.api.ClientModInitializer;
 
 public class EssorRevampedClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		AddExperienceLevelToastClientReceiver.initialize();
+		AddExperiencePointsToastClientReceiver.initialize();
 	}
 }

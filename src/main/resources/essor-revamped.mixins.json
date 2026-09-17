@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "fr.noahboos.essorrevamped.mixins",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "accessors.SlotDisplayAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

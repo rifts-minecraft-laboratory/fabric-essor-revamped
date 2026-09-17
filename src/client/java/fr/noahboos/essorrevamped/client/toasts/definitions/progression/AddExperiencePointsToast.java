@@ -1,0 +1,103 @@
+package fr.noahboos.essorrevamped.client.toasts.definitions.progression;
+
+import fr.noahboos.essorrevamped.components.definitions.progression.ProgressionService;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.toasts.Toast;
+import net.minecraft.client.gui.components.toasts.ToastManager;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
+import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.NonNull;
+
+import java.util.UUID;
+
+public class AddExperiencePointsToast implements Toast {
+    private static final Identifier BACKGROUND_SPRITE = Identifier.withDefaultNamespace("toast/advancement");
+    private final Object TOKEN;
+    private Toast.Visibility wantedVisibility;
+    private long lastUpdateTime;
+    private final ItemStack ITEM_STACK;
+    private float experiencePointsGained;
+    private Component title;
+    private Component description;
+
+    public AddExperiencePointsToast(UUID uuid, ItemStack itemStack, float experiencePointsGained, Component title, Component description) {
+        this.TOKEN = uuid;
+        this.lastUpdateTime = Util.getMillis();
+        this.ITEM_STACK = itemStack;
+        this.experiencePointsGained = experiencePointsGained;
+        this.title = title;
+        this.description = description;
+    }
+
+    public void resetLastUpdateTime() {
+        this.lastUpdateTime = Util.getMillis();
+    }
+
+    public void addExperiencePointsGained(float experiencePointsGainedToAdd) {
+        this.experiencePointsGained += experiencePointsGainedToAdd;
+    }
+
+    @Override
+    public int width() {
+        return 280;
+    }
+
+    @Override
+    public Visibility getWantedVisibility() {
+        return this.wantedVisibility;
+    }
+
+    @Override
+    public void update(ToastManager manager, long fullyVisibleForMs) {
+        long visibleFor = Util.getMillis() - this.lastUpdateTime;
+
+        this.wantedVisibility = visibleFor >= 5000 * manager.getNotificationDisplayTimeMultiplier()
+            ? Visibility.HIDE
+            : Visibility.SHOW;
+    }
+
+    @Override
+    public void extractRenderState(GuiGraphicsExtractor graphics, Font font, long fullyVisibleForMs) {
+        graphics.blitSprite(
+            RenderPipelines.GUI_TEXTURED,
+            BACKGROUND_SPRITE,
+            0,
+            0,
+            this.width(),
+            this.height()
+        );
+
+        graphics.fakeItem(this.ITEM_STACK, 8, 8);
+        graphics.text(Minecraft.getInstance().font, this.title, 30, 7, 0xFFFFFFFF, false);
+        graphics.text(Minecraft.getInstance().font, this.description, 30, 18, 0xFFAAAAAA, false);
+    }
+
+    @Override
+    public @NonNull Object getToken() {
+        return TOKEN;
+    }
+
+    public static void show(UUID uuid, ItemStack itemStack, float experiencePointsGained) {
+        ProgressionService.getProgression(itemStack).ifPresent(progression -> {
+            ToastManager toastManager = Minecraft.getInstance().gui.toastManager();
+
+            if (toastManager.getToast(AddExperiencePointsToast.class, uuid) instanceof AddExperiencePointsToast toast) {
+                toast.addExperiencePointsGained(experiencePointsGained);
+                toast.resetLastUpdateTime();
+                toast.title = Component.translatable("essor-revamped.toasts.progression.addExperiencePointsToast.title", itemStack.getHoverName(), progression.experienceLevel());
+                toast.description = Component.translatable("essor-revamped.toasts.progression.addExperiencePointsToast.description", toast.experiencePointsGained, progression.experiencePoints(), progression.experiencePointThreshold());
+            } else toastManager.addToast(new AddExperiencePointsToast(
+                uuid,
+                itemStack,
+                experiencePointsGained,
+                Component.translatable("essor-revamped.toasts.progression.addExperiencePointsToast.title", itemStack.getHoverName(), progression.experienceLevel()),
+                Component.translatable("essor-revamped.toasts.progression.addExperiencePointsToast.description", experiencePointsGained, progression.experiencePoints(), progression.experiencePointThreshold())
+            ));
+        });
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "smithing_templates",
+  "key": {
+    "a": "minecraft:amethyst_shard",
+    "b": "minecraft:nether_star",
+    "c": "minecraft:purpur_slab"
+  },
+  "pattern": [
+    "aaa",
+    "aba",
+    "aca"
+  ],
+  "result": {
+    "id": "essor-revamped:mastery_level_upgrade_smithing_template"
+  }
+}
