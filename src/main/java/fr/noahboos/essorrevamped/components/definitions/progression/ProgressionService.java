@@ -4,13 +4,12 @@ import fr.noahboos.essorrevamped.EssorRevamped;
 import fr.noahboos.essorrevamped.components.EssorRevampedComponents;
 import fr.noahboos.essorrevamped.components.definitions.durability.DurabilityService;
 import fr.noahboos.essorrevamped.components.definitions.identifier.IdentifierService;
+import fr.noahboos.essorrevamped.network.payloads.definitions.progression.AddExperienceLevelToastPayload;
 import fr.noahboos.essorrevamped.network.payloads.definitions.progression.AddExperienceToastPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
 
 public class ProgressionService {
@@ -41,6 +40,7 @@ public class ProgressionService {
         getProgression(itemStack).ifPresent(progression -> {
             IdentifierService.getIdentifier(itemStack).ifPresent(identifier -> {
                 float experiencePointsGained = progression.computeExperiencePointsToAdd(experiencePoints);
+                float previousExperienceLevel = progression.experienceLevel();
 
                 Progression _progression = progression
                     .addExperiencePoints(experiencePoints)
@@ -53,6 +53,13 @@ public class ProgressionService {
                     itemStack,
                     experiencePointsGained
                 ));
+
+                if (previousExperienceLevel < _progression.experienceLevel()) {
+                    ServerPlayNetworking.send(serverPlayer, new AddExperienceLevelToastPayload(
+                        identifier.uuid(),
+                        itemStack
+                    ));
+                }
             });
         });
 
