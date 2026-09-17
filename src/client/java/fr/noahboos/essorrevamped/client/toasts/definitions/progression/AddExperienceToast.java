@@ -44,7 +44,7 @@ public class AddExperienceToast implements Toast {
 
     @Override
     public int width() {
-        return 240;
+        return 280;
     }
 
     @Override
