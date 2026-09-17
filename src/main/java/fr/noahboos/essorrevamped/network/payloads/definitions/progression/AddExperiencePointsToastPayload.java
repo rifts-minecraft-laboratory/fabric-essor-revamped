@@ -10,28 +10,28 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.UUID;
 
-public record AddExperienceToastPayload(
+public record AddExperiencePointsToastPayload(
     UUID uuid,
     ItemStack itemStack,
     float experiencePointsGained
 ) implements CustomPacketPayload {
-    public static final Type<AddExperienceToastPayload> TYPE = new Type<>(
-        Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "payloads/add_experience_toast")
+    public static final Type<AddExperiencePointsToastPayload> TYPE = new Type<>(
+        Identifier.fromNamespaceAndPath(EssorRevamped.MOD_ID, "payloads/add_experience_points_toast")
     );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, AddExperienceToastPayload> STREAM_CODEC = StreamCodec.of(
-        AddExperienceToastPayload::encode,
-        AddExperienceToastPayload::decode
+    public static final StreamCodec<RegistryFriendlyByteBuf, AddExperiencePointsToastPayload> STREAM_CODEC = StreamCodec.of(
+        AddExperiencePointsToastPayload::encode,
+        AddExperiencePointsToastPayload::decode
     );
 
-    private static void encode(RegistryFriendlyByteBuf buffer, AddExperienceToastPayload payload) {
+    private static void encode(RegistryFriendlyByteBuf buffer, AddExperiencePointsToastPayload payload) {
         buffer.writeUUID(payload.uuid());
         ItemStack.STREAM_CODEC.encode(buffer, payload.itemStack);
         buffer.writeFloat(payload.experiencePointsGained);
     }
 
-    private static AddExperienceToastPayload decode(RegistryFriendlyByteBuf buffer) {
-        return new AddExperienceToastPayload(
+    private static AddExperiencePointsToastPayload decode(RegistryFriendlyByteBuf buffer) {
+        return new AddExperiencePointsToastPayload(
             buffer.readUUID(),
             ItemStack.STREAM_CODEC.decode(buffer),
             buffer.readFloat()
