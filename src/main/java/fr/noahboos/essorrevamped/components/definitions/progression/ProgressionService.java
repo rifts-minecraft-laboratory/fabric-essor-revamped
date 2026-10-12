@@ -7,6 +7,7 @@ import fr.noahboos.essorrevamped.components.definitions.identifier.IdentifierSer
 import fr.noahboos.essorrevamped.network.payloads.definitions.progression.AddExperienceLevelToastPayload;
 import fr.noahboos.essorrevamped.network.payloads.definitions.progression.AddExperiencePointsToastPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -26,11 +27,17 @@ public class ProgressionService {
 
     public static void updateProgression(ItemStack itemStack, float experiencePoints) {
         getProgression(itemStack).ifPresent(progression -> {
+            int previousExperienceLevel = progression.experienceLevel();
+
             Progression _progression = progression
                 .addExperiencePoints(experiencePoints)
                 .addExperienceLevels();
 
             itemStack.set(EssorRevampedComponents.PROGRESSION, _progression);
+
+            if (previousExperienceLevel < _progression.experienceLevel()) {
+                itemStack.set(DataComponents.DAMAGE, itemStack.getOrDefault(DataComponents.DAMAGE, 0) - (int) (itemStack.getMaxDamage() * 0.25f));
+            }
         });
 
         DurabilityService.updateDurability(itemStack);
@@ -54,6 +61,8 @@ public class ProgressionService {
                 ));
 
                 if (previousExperienceLevel < _progression.experienceLevel()) {
+                    itemStack.set(DataComponents.DAMAGE, itemStack.getOrDefault(DataComponents.DAMAGE, 0) - (int) (itemStack.getMaxDamage() * 0.25f));
+
                     ServerPlayNetworking.send(serverPlayer, new AddExperienceLevelToastPayload(
                         identifier.uuid(),
                         itemStack
