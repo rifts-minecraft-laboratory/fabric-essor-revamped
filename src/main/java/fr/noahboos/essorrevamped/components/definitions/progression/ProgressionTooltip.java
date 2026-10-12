@@ -2,6 +2,7 @@ package fr.noahboos.essorrevamped.components.definitions.progression;
 
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -10,7 +11,13 @@ import java.util.function.Consumer;
 public final class ProgressionTooltip {
     public static void tooltip(Progression progression, Item.TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag, DataComponentGetter components) {
         tooltip.accept(Component.empty());
-        tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.experienceLevel", progression.experienceLevel(), progression.experiencePoints(), progression.experiencePointThreshold()));
+        tooltip.accept(
+            Component.translatable("essor-revamped.components.progression.tooltip.experienceLevel",
+                Component.literal(String.valueOf(progression.experienceLevel())).withColor(TextColor.GOLD),
+                Component.literal(String.valueOf(progression.experiencePoints())).withColor(TextColor.GOLD),
+                Component.literal(String.valueOf(progression.experiencePointThreshold())).withColor(TextColor.GOLD)
+            )
+        );
         tooltip.accept(Component.literal(getExperienceLevelProgressionBar(progression)));
     }
 

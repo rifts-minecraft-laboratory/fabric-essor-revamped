@@ -7,6 +7,7 @@ import fr.noahboos.essorrevamped.tags.EssorRevampedItemTagProvider;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -57,7 +58,12 @@ public record Durability(
         int totalDurabilityPoints = components.getOrDefault(DataComponents.MAX_DAMAGE, 0);
 
         tooltip.accept(Component.empty());
-        tooltip.accept(Component.translatable("essor-revamped.components.durability.tooltip", durabilityPoints, totalDurabilityPoints));
+        tooltip.accept(
+            Component.translatable("essor-revamped.components.durability.tooltip",
+                Component.literal(String.valueOf(durabilityPoints)).withColor(TextColor.GOLD),
+                Component.literal(String.valueOf(totalDurabilityPoints)).withColor(TextColor.GOLD)
+            )
+        );
     }
 
     public static boolean isApplicableTo(Item item) {
