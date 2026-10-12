@@ -14,29 +14,23 @@ import java.util.function.Consumer;
 
 public record Progression(
     float experiencePoints,
-    int experienceLevel,
-    int masteryLevel,
-    float experienceMultiplier
+    int experienceLevel
 ) implements TooltipProvider {
     // <editor-fold desc="Region - Codec and constructors." defaultstate="collapsed">
     public static final Codec<Progression> CODEC = RecordCodecBuilder.create(builder ->
         builder.group(
             Codec.FLOAT.fieldOf("experiencePoints").forGetter(Progression::experiencePoints),
-            Codec.INT.fieldOf("experienceLevel").forGetter(Progression::experienceLevel),
-            Codec.INT.fieldOf("masteryLevel").forGetter(Progression::masteryLevel),
-            Codec.FLOAT.fieldOf("experienceMultiplier").forGetter(Progression::experienceMultiplier)
+            Codec.INT.fieldOf("experienceLevel").forGetter(Progression::experienceLevel)
         ).apply(builder, Progression::new)
     );
 
     public Progression {
         if (experienceLevel < 0) throw new IllegalArgumentException("experienceLevel must be equal to or greater than 0.");
         if (experiencePoints < 0) throw new IllegalArgumentException("experiencePoints must be equal to or greater than 0.");
-        if (masteryLevel < 0) throw new IllegalArgumentException("masteryLevel must be equal to or greater than 0.");
-        if (experienceMultiplier < 0) throw new IllegalArgumentException("experienceMultiplier must be equal to or greater than 0.");
     }
 
     public Progression() {
-        this(0, 0, 0, 1.00f);
+        this(0, 0);
     }
     // </editor-fold>
 
@@ -46,12 +40,10 @@ public record Progression(
     }
 
     public int experienceLevelThreshold() {
-        return Math.min(100 * this.masteryLevel() + 100, 1000);
+        return 1000;
     }
 
     public static int MAXIMUM_MASTERY_LEVEL = 10;
-
-    public static float MAXIMUM_LEVEL_EXPERIENCE_MULTIPLIER = 0.25f;
     // </editor-fold>
 
     // <editor-fold desc="Region - Additional logic." defaultstate="collapsed">
@@ -62,10 +54,6 @@ public record Progression(
 
     public boolean isExperienceLevelMaximised() {
         return experienceLevel == experienceLevelThreshold();
-    }
-
-    public boolean isMasteryLevelUpgradable() {
-        return experienceLevel() >= experienceLevelThreshold() && masteryLevel() < MAXIMUM_MASTERY_LEVEL;
     }
 
     public static boolean isApplicableTo(Item item) {
@@ -79,54 +67,22 @@ public record Progression(
     public Progression withExperiencePoints(float experiencePoints) {
         return new Progression(
             experiencePoints,
-            this.experienceLevel,
-            this.masteryLevel,
-            this.experienceMultiplier
+            this.experienceLevel
         );
     }
 
     public Progression withExperienceLevel(int experienceLevel) {
         return new Progression(
             this.experiencePoints,
-            experienceLevel,
-            this.masteryLevel,
-            this.experienceMultiplier
-        );
-    }
-
-    public Progression withMasteryLevel(int masteryLevel) {
-        return new Progression(
-            this.experiencePoints,
-            this.experienceLevel,
-            masteryLevel,
-            this.experienceMultiplier
-        );
-    }
-
-    public Progression withExperienceMultiplier(float experienceMultiplier) {
-        return new Progression(
-            this.experiencePoints,
-            this.experienceLevel,
-            this.masteryLevel,
-            experienceMultiplier
+            experienceLevel
         );
     }
     // </editor-fold>
 
     // <editor-fold desc="Region - Progression operations." defaultstate="collapsed">
-    public float computeExperiencePointsToAdd(float experiencePointsToAdd) {
-        float _experiencePointsToAdd = experiencePointsToAdd * experienceMultiplier;
-        if (isExperienceLevelMaximised()) _experiencePointsToAdd *= MAXIMUM_LEVEL_EXPERIENCE_MULTIPLIER;
-
-        return BigDecimal
-            .valueOf(_experiencePointsToAdd)
-            .setScale(3, RoundingMode.HALF_UP)
-            .floatValue();
-    }
-
     public Progression addExperiencePoints(float experiencePointsToAdd) {
         float _experiencePoints = BigDecimal
-            .valueOf(experiencePoints + computeExperiencePointsToAdd(experiencePointsToAdd))
+            .valueOf(experiencePoints + experiencePointsToAdd)
             .setScale(3, RoundingMode.HALF_UP)
             .floatValue();
 
@@ -143,20 +99,6 @@ public record Progression(
         }
 
         return _progression;
-    }
-
-    public Progression addMasteryLevel() {
-        if (!isMasteryLevelUpgradable()) return this;
-
-        int _masteryLevel = masteryLevel + 1;
-        float _experienceMultiplier = BigDecimal
-            .valueOf(1.00f + (_masteryLevel * 0.15f))
-            .setScale(3, RoundingMode.HALF_UP)
-            .floatValue();
-
-        return withMasteryLevel(_masteryLevel)
-            .withExperienceMultiplier(_experienceMultiplier)
-            .addExperienceLevels();
     }
     // </editor-fold>
 

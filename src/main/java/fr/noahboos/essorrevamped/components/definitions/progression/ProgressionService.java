@@ -39,7 +39,6 @@ public class ProgressionService {
     public static void updateProgression(ServerPlayer serverPlayer, ItemStack itemStack, float experiencePoints) {
         getProgression(itemStack).ifPresent(progression -> {
             IdentifierService.getIdentifier(itemStack).ifPresent(identifier -> {
-                float experiencePointsGained = progression.computeExperiencePointsToAdd(experiencePoints);
                 float previousExperienceLevel = progression.experienceLevel();
 
                 Progression _progression = progression
@@ -51,7 +50,7 @@ public class ProgressionService {
                 ServerPlayNetworking.send(serverPlayer, new AddExperiencePointsToastPayload(
                     identifier.uuid(),
                     itemStack,
-                    experiencePointsGained
+                    experiencePoints
                 ));
 
                 if (previousExperienceLevel < _progression.experienceLevel()) {

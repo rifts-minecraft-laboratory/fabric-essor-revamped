@@ -12,8 +12,6 @@ public final class ProgressionTooltip {
         tooltip.accept(Component.empty());
         tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.experienceLevel", progression.experienceLevel(), progression.experiencePoints(), progression.experiencePointThreshold()));
         tooltip.accept(Component.literal(getExperienceLevelProgressionBar(progression)));
-        tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.masteryLevel", progression.masteryLevel(), getMasteryLevelProgressionBar(progression)));
-        tooltip.accept(Component.translatable("essor-revamped.components.progression.tooltip.experienceMultiplier", progression.experienceMultiplier()));
     }
 
     public static String getExperienceLevelProgressionBar(Progression progression) {
@@ -24,12 +22,5 @@ public final class ProgressionTooltip {
         experienceLevelProgressBar.repeat("§6■", experienceLevelProgressBarFilledSegments);
         experienceLevelProgressBar.repeat("§7□", experienceLevelProgressBarMaximumSegments - experienceLevelProgressBarFilledSegments);
         return experienceLevelProgressBar.toString();
-    }
-
-    public static String getMasteryLevelProgressionBar(Progression progression) {
-        StringBuilder masteryLevelProgressBar = new StringBuilder();
-        masteryLevelProgressBar.repeat("§6★", Math.max(0, progression.masteryLevel()));
-        masteryLevelProgressBar.repeat("§7☆", Math.max(0, Progression.MAXIMUM_MASTERY_LEVEL - progression.masteryLevel()));
-        return masteryLevelProgressBar.toString();
     }
 }
