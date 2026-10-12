@@ -39,21 +39,12 @@ public record Progression(
         return 50 * this.experienceLevel() + 50;
     }
 
-    public int experienceLevelThreshold() {
-        return 1000;
-    }
-
     public static int MAXIMUM_MASTERY_LEVEL = 10;
     // </editor-fold>
 
     // <editor-fold desc="Region - Additional logic." defaultstate="collapsed">
     public boolean isExperienceLevelUpgradable() {
-        return experiencePoints >= experiencePointThreshold()
-            && experienceLevel < experienceLevelThreshold();
-    }
-
-    public boolean isExperienceLevelMaximised() {
-        return experienceLevel == experienceLevelThreshold();
+        return experiencePoints >= experiencePointThreshold();
     }
 
     public static boolean isApplicableTo(Item item) {
