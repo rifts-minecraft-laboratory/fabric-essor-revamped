@@ -1,8 +1,8 @@
 {
-  "essor-revamped.components.durability.tooltip": "Durabilité supplémentaire : %1$s",
+  "essor-revamped.components.durability.tooltip": "Durabilité supplémentaire : %1$s (Max. : %2$s)",
   "essor-revamped.components.progression.tooltip.experienceLevel": "Niveau %1$s : %2$s / %3$s",
   "essor-revamped.toasts.progression.addExperiencePointsToast.title": "%1$s - Niveau %2$s",
   "essor-revamped.toasts.progression.addExperiencePointsToast.description": "+%1$s XP ‒ %2$s / %3$s XP",
   "essor-revamped.toasts.progression.addExperienceLevelToast.title": "Montée en niveau",
-  "essor-revamped.toasts.progression.addExperienceLevelToast.description": "%1$s a atteint le niveau %2$s.",
+  "essor-revamped.toasts.progression.addExperienceLevelToast.description": "%1$s a atteint le niveau %2$s."
 }

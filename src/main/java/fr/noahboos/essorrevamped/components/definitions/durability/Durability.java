@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import fr.noahboos.essorrevamped.components.definitions.progression.Progression;
 import fr.noahboos.essorrevamped.tags.EssorRevampedItemTagProvider;
 import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -53,8 +54,10 @@ public record Durability(
     // <editor-fold desc="Region - Tooltip related methods." defaultstate="collapsed">
     @Override
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltip, TooltipFlag flag, DataComponentGetter components) {
+        int totalDurabilityPoints = components.getOrDefault(DataComponents.MAX_DAMAGE, 0);
+
         tooltip.accept(Component.empty());
-        tooltip.accept(Component.translatable("essor-revamped.components.durability.tooltip", durabilityPoints));
+        tooltip.accept(Component.translatable("essor-revamped.components.durability.tooltip", durabilityPoints, totalDurabilityPoints));
     }
 
     public static boolean isApplicableTo(Item item) {
