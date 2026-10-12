@@ -4,7 +4,7 @@ Essor - Revamped is the successor of Essor, a Minecraft modifier initially made 
 
 ## Design philosophy
 
-Back then Essor was relying on an enchantment-based rewarding system aimed to be coupled to an item-based rewarding system in further updates. Over time, I came up with the conclusion that it was ruining Minecraft default's progression system by making the enchantment table completely unworthy. Moreover, when I started to conceive an item-based rewarding system, I came up with the conclusion that such a system would not only ruin farming and trading, but also the economy of a server.
+Back then Essor was relying on an enchantment-based rewarding system aimed to be coupled to an item-based rewarding system in further updates. Over time, I came up with the conclusion that it was ruining Minecraft default's progression system by making the enchantment table completely unworthy. Moreover, when I started to conceive an item-based rewarding system, I came up with the conclusion that such a system would ruin both farming and trading.
 
 For these reasons, the design philosophy behind this modifier evolved to reach its current state. Thanks to new experience tables, but also to new ways to display information, the levelling system is here for measuring the progress of the player in its usage of the tool.
 
@@ -16,4 +16,4 @@ Essor - Revamped is developed with Love with the Fabric mod launcher. As these w
 
 ## License
 
-This project is licensed under the Rift Minecraft Modding Licence v2.0.
+This project is licensed under the MIT licence.
