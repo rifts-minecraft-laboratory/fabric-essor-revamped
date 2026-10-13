@@ -8,8 +8,9 @@
 		"Noah Boos (Propzonzon) (Rift)"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/mod/essor-revamped",
+		"sources": "https://github.com/rifts-minecraft-laboratory/fabric-essor-revamped",
+		"issues": "https://github.com/rifts-minecraft-laboratory/fabric-essor-revamped/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/essor-revamped/icon.png",
