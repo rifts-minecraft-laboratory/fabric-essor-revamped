@@ -1,6 +1,11 @@
 {
   "essor-revamped.components.durability.tooltip": "§7Additional durability : %1$s §7(Max.: %2$s§7)",
   "essor-revamped.components.progression.tooltip.experienceLevel": "§7Level %1$s §7: %2$s §7/ %3$s §7XP",
+  "essor-revamped.screens.config.title": "Essor - Revamped's config",
+  "essor-revamped.screens.config.yes": "Yes.",
+  "essor-revamped.screens.config.no": "No.",
+  "essor-revamped.screens.config.displayAddExperiencePointsNotification": "Display toast notification when receiving experience points on an equipment:",
+  "essor-revamped.screens.config.displayAddExperienceLevelNotification": "Display toast notification when levelling up an equipment:",
   "essor-revamped.screens.config.back": "Get back to the mod list",
   "essor-revamped.toasts.progression.addExperiencePointsToast.title": "%1$s - Level %2$s",
   "essor-revamped.toasts.progression.addExperiencePointsToast.description": "+%1$s XP ‒ %2$s / %3$s XP",
