@@ -24,6 +24,9 @@
 		],
 		"fabric-datagen": [
 			"fr.noahboos.essorrevamped.client.datagen.EssorRevampedDataGenerator"
+		],
+		"modmenu": [
+			"fr.noahboos.essorrevamped.client.modmenu.EssorRevampedModMenuIntegration"
 		]
 	},
 	"mixins": [

@@ -1,6 +1,7 @@
 {
   "essor-revamped.components.durability.tooltip": "§7Durabilité supplémentaire : %1$s §7(Max. : %2$s§7)",
   "essor-revamped.components.progression.tooltip.experienceLevel": "§7Niveau %1$s §7: %2$s §7/ %3$s §7PEX",
+  "essor-revamped.screens.config.back": "Revenir à la liste des modificateurs",
   "essor-revamped.toasts.progression.addExperiencePointsToast.title": "%1$s - Niveau %2$s",
   "essor-revamped.toasts.progression.addExperiencePointsToast.description": "+%1$s PEX ‒ %2$s / %3$s PEX",
   "essor-revamped.toasts.progression.addExperienceLevelToast.title": "Montée en niveau",
